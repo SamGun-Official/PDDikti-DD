@@ -10,6 +10,7 @@
     <a href="{{ route('kampus.mata-kuliah') }}">Mata Kuliah</a>
     <a href="{{ route('kampus.nilai') }}">Nilai</a>
     <a href="{{ route('kampus.periode') }}">Periode</a>
+    <a href="{{ url('/') }}">Logout</a>
 @endsection
 
 @section('content')

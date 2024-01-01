@@ -9,6 +9,7 @@
     <a href="{{ route('pddikti.mata-kuliah') }}">Mata Kuliah</a>
     <a href="{{ route('pddikti.nilai') }}">Nilai</a>
     <a href="{{ route('pddikti.periode') }}">Periode</a>
+    <a href="{{ url('/') }}">Logout</a>
 @endsection
 
 @section('content')

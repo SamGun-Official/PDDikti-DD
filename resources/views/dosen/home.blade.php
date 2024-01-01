@@ -7,6 +7,7 @@
     <a href="{{ route('dosen.kelas') }}">Kelas</a>
     <a href="{{ route('dosen.mata-kuliah') }}">Mata Kuliah</a>
     <a href="{{ route('dosen.nilai') }}">Nilai</a>
+    <a href="{{ url('/') }}">Logout</a>
 @endsection
 
 @section('content')
