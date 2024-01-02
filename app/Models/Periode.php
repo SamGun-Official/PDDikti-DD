@@ -11,5 +11,5 @@ class Periode extends Model
 
     protected $table = 'periode';
     protected $primaryKey = 'periode';
-    protected $guarded = [];
+    protected $fillable = ['periode', 'status'];
 }

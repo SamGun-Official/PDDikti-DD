@@ -11,5 +11,5 @@ class MataKuliah extends Model
 
     protected $table = 'mata_kuliah';
     protected $primaryKey = 'kode';
-    protected $guarded = [];
+    protected $fillable = ['kode', 'nama', 'semester', 'sks', 'id_dosen', 'status'];
 }

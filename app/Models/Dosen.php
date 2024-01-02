@@ -11,5 +11,6 @@ class Dosen extends Model
 
     protected $table = 'dosen';
     protected $primaryKey = 'id';
-    protected $guarded = [];
+    public $incrementing = true;
+    protected $fillable = ['nama', 'status'];
 }

@@ -11,5 +11,5 @@ class Mahasiswa extends Model
 
     protected $table = 'mahasiswa';
     protected $primaryKey = 'nrp';
-    protected $guarded = [];
+    protected $fillable = ['nrp', 'nama', 'status'];
 }

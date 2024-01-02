@@ -10,5 +10,5 @@ class Nilai extends Model
     use HasFactory;
 
     protected $table = 'nilai';
-    protected $guarded = [];
+    protected $fillable = ['kode', 'nrp', 'nilai'];
 }
