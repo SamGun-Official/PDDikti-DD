@@ -12,20 +12,17 @@
                 <td><input type="text" name="nama"></td>
             </tr>
             <tr>
-                <td>Jurusan</td>
-                <td>:</td>
-                <td>
-                    <select name="jurusan">
-                        <option value="INF">INF</option>
-                        <option value="SIB">SIB</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
                 <td>Semester</td>
                 <td>:</td>
                 <td>
                     <input type="number" name="semester">
+                </td>
+            </tr>
+            <tr>
+                <td>SKS</td>
+                <td>:</td>
+                <td>
+                    <input type="number" name="sks">
                 </td>
             </tr>
             <tr>
