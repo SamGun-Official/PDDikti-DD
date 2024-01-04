@@ -24,36 +24,32 @@
         <thead>
             <tr>
                 <th>NRP</th>
-                <th>Nama</th>
+                <th>Nama Lengkap</th>
+                <th>Jenis kelamin</th>
+                <th>Tanggal lahir</th>
+                <th>asal kampus</th>
+                <th>Jenjang</th>
+                <th>Semester awal</th>
                 <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>220116919</td>
-                <td>Ignatius Odi</td>
-                <td>1</td>
-                <td>
-                    <button>Non Aktif</button>
-                </td>
-            </tr>
-            <tr>
-                <td>220116921</td>
-                <td>John Louis Airlangga</td>
-                <td>1</td>
-                <td>
-                    <button>Non Aktif</button>
-                </td>
-            </tr>
-            <tr>
-                <td>220116928</td>
-                <td>Samuel Gunawan</td>
-                <td>1</td>
-                <td>
-                    <button>Non Aktif</button>
-                </td>
-            </tr>
+            @forelse ($mahasiswa as $item)
+                <tr>
+                    <td>{{$item->nrp_mahasiswa}}</td>
+                    <td>{{$item->nama_lengkap}}</td>
+                    <td>{{$item->jenis_kelamin}}</td>
+                    <td>{{$item->tanggal_lahir}}</td>
+                    <td>{{$item->asal_kampus}}</td>
+                    <td>{{$item->jenjang}}</td>
+                    <td>{{$item->semester_awal}}</td>
+                    <td>{{$item->status}}</td>
+                    <td><button>non aktif</button></td>
+                </tr>
+            @empty
+                <tr><td>Data kosong</td></tr>
+            @endforelse
         </tbody>
     </table>
 @endsection

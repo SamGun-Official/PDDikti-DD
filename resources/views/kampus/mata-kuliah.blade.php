@@ -49,38 +49,29 @@
     <table border="1">
         <thead>
             <tr>
-                <th>Kode</th>
-                <th>Nama</th>
-                <th>Jurusan</th>
-                <th>Semester</th>
-                <th>Dosen</th>
-                <th>Status</th>
+                <th>Kode matkul</th>
+                <th>Nama matkul</th>
+                <th>Kode kelas</th>
+                <th>Periode</th>
+                <th>nidn dosen</th>
+                <th>sks</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>IN982</td>
-                <td>Distributed Database</td>
-                <td>INF</td>
-                <td>7</td>
-                <td>1</td>
-                <td>1</td>
-                <td>
-                    <button>Non Aktif</button>
-                </td>
-            </tr>
-            <tr>
-                <td>IN920</td>
-                <td>Ethical Hacking</td>
-                <td>INF</td>
-                <td>7</td>
-                <td>2</td>
-                <td>1</td>
-                <td>
-                    <button>Non Aktif</button>
-                </td>
-            </tr>
+            @forelse ($mata_kuliah as $item)
+                <tr>
+                    <td>{{$item->kode_matkul}}</td>
+                    <td>{{$item->nama_matkul}}</td>
+                    <td>{{$item->kode_kelas}}</td>
+                    <td>{{$item->id_periode}}</td>
+                    <td>{{$item->nidn_dosen}}</td>
+                    <td>{{$item->sks}}</td>
+                    <td><button>non aktif</button></td>
+                </tr>
+            @empty
+                <tr><td>data kosong</td></tr>
+            @endforelse
         </tbody>
     </table>
 @endsection

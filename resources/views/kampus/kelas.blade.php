@@ -47,41 +47,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>IN982</td>
-                <td>220116919</td>
-                <td>
-                    <button>Batal</button>
-                </td>
-            </tr>
-            <tr>
-                <td>IN982</td>
-                <td>220116921</td>
-                <td>
-                    <button>Batal</button>
-                </td>
-            </tr>
-            <tr>
-                <td>IN982</td>
-                <td>220116928</td>
-                <td>
-                    <button>Batal</button>
-                </td>
-            </tr>
-            <tr>
-                <td>IN920</td>
-                <td>220116919</td>
-                <td>
-                    <button>Batal</button>
-                </td>
-            </tr>
-            <tr>
-                <td>IN920</td>
-                <td>220116928</td>
-                <td>
-                    <button>Batal</button>
-                </td>
-            </tr>
+            @forelse ($kelas as $item)
+                <tr>
+                    <td>{{$item->kode_matkul}}</td>
+                    <td>{{$item->nrp_mahasiswa}}</td>
+                    <td><button>cancel</button></td>
+                </tr>
+            @empty
+                <tr><td>data kosong</td></tr>
+            @endforelse
         </tbody>
     </table>
 @endsection

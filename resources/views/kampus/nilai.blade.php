@@ -8,37 +8,25 @@
     <table border="1">
         <thead>
             <tr>
-                <th>Mata Kuliah</th>
-                <th>Mahasiswa</th>
-                <th>Nilai</th>
+                <th>Mata kuliah</th>
+                <th>Nama Mahasiswa</th>
+                <th>Nilai uts</th>
+                <th>Nilai uas</th>
+                <th>Nilai akhir</th>
             </tr>
         </thead>
         <tbody>
+            @forelse ($nilai as $item)
             <tr>
-                <td>IN982</td>
-                <td>220116919</td>
-                <td>100</td>
+                <td>{{$item->kode_matkul}}</td>
+                <td>{{$item->nrp_mahasiswa}}</td>
+                <td>{{$item->nilai_uts}}</td>
+                <td>{{$item->nilai_uas}}</td>
+                <td>{{$item->nilai_akhir}}</td>
             </tr>
-            <tr>
-                <td>IN982</td>
-                <td>220116921</td>
-                <td>100</td>
-            </tr>
-            <tr>
-                <td>IN982</td>
-                <td>220116928</td>
-                <td>100</td>
-            </tr>
-            <tr>
-                <td>IN920</td>
-                <td>220116919</td>
-                <td>100</td>
-            </tr>
-            <tr>
-                <td>IN920</td>
-                <td>220116928</td>
-                <td>100</td>
-            </tr>
+        @empty
+            <tr><td>data kosong</td></tr>
+        @endforelse
         </tbody>
     </table>
 @endsection

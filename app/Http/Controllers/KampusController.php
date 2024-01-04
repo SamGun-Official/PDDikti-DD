@@ -74,10 +74,9 @@ class KampusController extends Controller
 
     function kelas(): View
     {
-        // $kelas = Kelas::all();
-        // return view('kampus.kelas', ["kelas" => $kelas]);
-
-        return view('kampus.kelas');
+        $kelas = DB::connection('istts_kampus')->table('kelas')->get();
+        // dd($kelas);
+        return view('kampus.kelas', ["kelas" => $kelas]);
     }
 
     function insert_kelas(Request $request)
@@ -114,7 +113,9 @@ class KampusController extends Controller
 
     function mahasiswa(): View
     {
-        return view('kampus.mahasiswa');
+        $mahasiswa = DB::connection('istts_kampus')->table('mahasiswa')->get();
+        // dd($mahasiswa);
+        return view('kampus.mahasiswa', ["mahasiswa" => $mahasiswa]);
     }
 
     function insert_mahasiswa(Request $request)
@@ -172,10 +173,9 @@ class KampusController extends Controller
 
     function mata_kuliah(): View
     {
-        // $mata_kuliah = MataKuliah::all();
-        // return view('kampus.mata-kuliah', ["mata_kuliah" => $mata_kuliah]);
-
-        return view('kampus.mata-kuliah');
+        $mata_kuliah = DB::connection('istts_kampus')->table('mata_kuliah')->get();
+        // dd($mata_kuliah);
+        return view('kampus.mata-kuliah', ["mata_kuliah" => $mata_kuliah]);
     }
 
     function insert_mata_kuliah()
@@ -233,13 +233,15 @@ class KampusController extends Controller
 
     function nilai(): View
     {
-        $nilai = Nilai::all();
+        $nilai = DB::connection('istts_kampus')->table('mv_nilai')->get();
+        // dd($nilai);
         return view('kampus.nilai', ["nilai" => $nilai]);
     }
 
     function periode(): View
     {
-        $periode = Periode::all();
+        $periode = DB::connection('istts_kampus')->table('periode')->get();
+        // dd($periode);
         return view('kampus.periode', ["periode" => $periode]);
     }
 
