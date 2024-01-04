@@ -39,20 +39,6 @@ class TotalResetMigration extends Command
                     dbms_mview.refresh(nama_tabel, type_refresh);
                 END;
             ');
-            DB::connection(env("DB_CONNECTION_ISTTSKAMPUS", ""))->unprepared('
-                CREATE OR REPLACE TRIGGER trigger_log_mahasiswa
-                AFTER INSERT ON mlog$_mahasiswa
-                BEGIN
-                    update_tabel(\'mv_mahasiswa@' . env("DB_DBLINK_2", "") . '\', \'f\');
-                END;
-            ');
-            DB::connection(env("DB_CONNECTION_ISTTSKAMPUS", ""))->unprepared('
-                CREATE OR REPLACE TRIGGER trigger_log_periode
-                AFTER INSERT ON mlog$_periode
-                BEGIN
-                    update_tabel(\'mv_periode@' . env("DB_DBLINK_2", "") . '\', \'f\');
-                END;
-            ');
 
             DB::connection(env("DB_CONNECTION_PDDIKTI", ""))->statement("DROP MATERIALIZED VIEW mv_mahasiswa");
             DB::connection(env("DB_CONNECTION_PDDIKTI", ""))->statement("DROP MATERIALIZED VIEW mv_periode");
@@ -67,13 +53,6 @@ class TotalResetMigration extends Command
                     dbms_mview.refresh(nama_tabel, type_refresh);
                 END;
             ');
-            DB::connection(env("DB_CONNECTION_PDDIKTI", ""))->unprepared('
-                CREATE OR REPLACE TRIGGER trigger_log_dosen
-                AFTER INSERT ON mlog$_dosen
-                BEGIN
-                    update_tabel(\'mv_dosen@' . env("DB_DBLINK_1", "") . '\', \'f\');
-                END;
-            ');
 
             DB::connection(env("DB_CONNECTION_ISTTSDOSEN", ""))->statement("DROP MATERIALIZED VIEW mv_kelas");
             DB::connection(env("DB_CONNECTION_ISTTSDOSEN", ""))->statement("DROP MATERIALIZED VIEW mv_mata_kuliah");
@@ -83,14 +62,6 @@ class TotalResetMigration extends Command
                     type_refresh VARCHAR2
                 ) AS BEGIN
                     dbms_mview.refresh(nama_tabel, type_refresh);
-                END;
-            ');
-            DB::connection(env("DB_CONNECTION_ISTTSDOSEN", ""))->unprepared('
-                CREATE OR REPLACE TRIGGER trigger_log_nilai
-                AFTER INSERT ON mlog$_nilai
-                BEGIN
-                    update_tabel(\'mv_nilai@' . env("DB_DBLINK_4", "") . '\', \'f\');
-                    update_tabel(\'mv_nilai@' . env("DB_DBLINK_2", "") . '\', \'f\');
                 END;
             ');
         } catch (QueryException $qe) {
@@ -136,5 +107,39 @@ class TotalResetMigration extends Command
             '--database' => 'istts_dosen',
             '--path' => 'database/migrations/istts_dosen/post_migrate',
         ]);
+
+        try {
+            DB::connection(env("DB_CONNECTION_ISTTSKAMPUS", ""))->unprepared('
+                CREATE OR REPLACE TRIGGER trigger_log_mahasiswa
+                AFTER INSERT ON mlog$_mahasiswa
+                BEGIN
+                    update_tabel(\'mv_mahasiswa@' . env("DB_DBLINK_2", "") . '\', \'f\');
+                END;
+            ');
+            DB::connection(env("DB_CONNECTION_ISTTSKAMPUS", ""))->unprepared('
+                CREATE OR REPLACE TRIGGER trigger_log_periode
+                AFTER INSERT ON mlog$_periode
+                BEGIN
+                    update_tabel(\'mv_periode@' . env("DB_DBLINK_2", "") . '\', \'f\');
+                END;
+            ');
+            DB::connection(env("DB_CONNECTION_PDDIKTI", ""))->unprepared('
+                CREATE OR REPLACE TRIGGER trigger_log_dosen
+                AFTER INSERT ON mlog$_dosen
+                BEGIN
+                    update_tabel(\'mv_dosen@' . env("DB_DBLINK_1", "") . '\', \'f\');
+                END;
+            ');
+            DB::connection(env("DB_CONNECTION_ISTTSDOSEN", ""))->unprepared('
+                CREATE OR REPLACE TRIGGER trigger_log_nilai
+                AFTER INSERT ON mlog$_nilai
+                BEGIN
+                    update_tabel(\'mv_nilai@' . env("DB_DBLINK_4", "") . '\', \'f\');
+                    update_tabel(\'mv_nilai@' . env("DB_DBLINK_2", "") . '\', \'c\');
+                END;
+            ');
+        } catch (QueryException $qe) {
+            Log::error($qe->getMessage());
+        }
     }
 }
