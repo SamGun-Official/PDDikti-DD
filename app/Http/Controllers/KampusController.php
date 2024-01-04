@@ -240,7 +240,7 @@ class KampusController extends Controller
 
     function periode(): View
     {
-        $periode = DB::connection('istts_kampus')->table('periode')->get();
+        $periode = DB::connection('istts_kampus')->table('periode')->orderBy('id_periode')->get();
         // dd($periode);
         return view('kampus.periode', ["periode" => $periode]);
     }
@@ -248,38 +248,32 @@ class KampusController extends Controller
     function insert_periode()
     {
         $data = request()->validate([
-            'periode' => 'required',
+            'id_periode' => 'required',
+            'asal_kampus' => 'required',
+            'jenis_semester' => 'required',
+            'tahun_ajaran' => 'required',
         ]);
 
-        Periode::create([
-            'periode' => $data['periode'],
-            'status' => 1,
+        DB::connection('istts_kampus')->table('periode')->insert([
+            'id_periode' => $data['id_periode'],
+            'asal_kampus' => $data['asal_kampus'],
+            'jenis_semester' => $data['jenis_semester'],
+            'tahun_ajaran' => $data['tahun_ajaran'],
         ]);
-
-        DB::raw('commit;');
 
         return back()->with('success', 'Periode berhasil ditambahkan');
     }
 
-    function update_periode($periode)
+    function update_periode($id_periode)
     {
-        $periode = Periode::find($periode);
-        $periode->update([
-            'status' => !$periode->status,
-        ]);
-
-        DB::raw('commit;');
-
+        // NOT USED
+        $periode = DB::connection('istts_kampus')->table('periode')->where('id_periode', $id_periode)->first();
         return back()->with('success', 'Status Periode berhasil diubah');
     }
 
-    function delete_periode($periode)
+    function delete_periode($id_periode)
     {
-        $periode = Periode::find($periode);
-        $periode->delete();
-
-        DB::raw('commit;');
-
+        DB::connection('istts_kampus')->table('periode')->where('id_periode', $id_periode)->delete();
         return back()->with('success', 'Periode berhasil dihapus');
     }
 }
