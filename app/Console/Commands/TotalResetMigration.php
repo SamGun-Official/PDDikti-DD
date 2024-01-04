@@ -183,28 +183,28 @@ class TotalResetMigration extends Command
         try {
             DB::connection(env("DB_CONNECTION_ISTTSKAMPUS", ""))->unprepared('
                 CREATE OR REPLACE TRIGGER trigger_log_mahasiswa
-                AFTER INSERT ON mlog$_mahasiswa
+                AFTER INSERT OR UPDATE OR DELETE ON mlog$_mahasiswa
                 BEGIN
                     update_tabel(\'mv_mahasiswa@' . env("DB_DBLINK_2", "") . '\', \'f\');
                 END;
             ');
             DB::connection(env("DB_CONNECTION_ISTTSKAMPUS", ""))->unprepared('
                 CREATE OR REPLACE TRIGGER trigger_log_periode
-                AFTER INSERT ON mlog$_periode
+                AFTER INSERT OR UPDATE OR DELETE ON mlog$_periode
                 BEGIN
                     update_tabel(\'mv_periode@' . env("DB_DBLINK_2", "") . '\', \'f\');
                 END;
             ');
             DB::connection(env("DB_CONNECTION_PDDIKTI", ""))->unprepared('
                 CREATE OR REPLACE TRIGGER trigger_log_dosen
-                AFTER INSERT ON mlog$_dosen
+                AFTER INSERT OR UPDATE OR DELETE ON mlog$_dosen
                 BEGIN
                     update_tabel(\'mv_dosen@' . env("DB_DBLINK_1", "") . '\', \'f\');
                 END;
             ');
             DB::connection(env("DB_CONNECTION_ISTTSDOSEN", ""))->unprepared('
                 CREATE OR REPLACE TRIGGER trigger_log_nilai
-                AFTER INSERT ON mlog$_nilai
+                AFTER INSERT OR UPDATE OR DELETE ON mlog$_nilai
                 BEGIN
                     update_tabel(\'mv_nilai@' . env("DB_DBLINK_4", "") . '\', \'f\');
                     update_tabel(\'mv_nilai@' . env("DB_DBLINK_2", "") . '\', \'c\');
