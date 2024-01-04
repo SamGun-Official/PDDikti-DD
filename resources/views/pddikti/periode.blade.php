@@ -9,26 +9,24 @@
         <thead>
             <tr>
                 <th>Periode</th>
+                <th>semester</th>
+                <th>tahun ajaran</th>
                 <th>Status</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
+            @forelse ($periode as $item)
             <tr>
-                <td>20221</td>
-                <td>0</td>
+                <td>{{$item->id_periode}}</td>
+                <td>{{$item->jenis_semester}}</td>
+                <td>{{$item->tahun_ajaran}}</td>
+                <td></td>
+                <td><button>cancel</button></td>
             </tr>
-            <tr>
-                <td>20222</td>
-                <td>0</td>
-            </tr>
-            <tr>
-                <td>20231</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>20232</td>
-                <td>0</td>
-            </tr>
+            @empty
+                <tr><td>data kosong</td></tr>
+            @endforelse
         </tbody>
     </table>
 @endsection

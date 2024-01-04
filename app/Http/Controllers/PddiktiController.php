@@ -21,7 +21,8 @@ class PddiktiController extends Controller
 
     function dosen(): View
     {
-        $dosen = Dosen::all();
+        $dosen = DB::connection('pddikti')->table('dosen')->get();
+        // dd($dosen);
         return view('pddikti.dosen', ["dosen" => $dosen]);
     }
 
@@ -48,25 +49,29 @@ class PddiktiController extends Controller
 
     function mahasiswa(): View
     {
-        $mahasiswa = Mahasiswa::all();
+        $mahasiswa = DB::connection('pddikti')->table('mv_mahasiswa')->get();
+        // dd($mahasiswa);
         return view('pddikti.mahasiswa', ["mahasiswa" => $mahasiswa]);
     }
 
     function mata_kuliah(): View
     {
-        $mata_kuliah = MataKuliah::all();
+        $mata_kuliah = DB::connection('pddikti')->table('mv_mata_kuliah')->get();
+        // dd($mata_kuliah);
         return view('pddikti.mata-kuliah', ["mata_kuliah" => $mata_kuliah]);
     }
 
     function nilai(): View
     {
-        $nilai = Nilai::all();
+        $nilai = DB::connection('pddikti')->table('mv_nilai')->get();
+        // dd($nilai);
         return view('pddikti.nilai', ["nilai" => $nilai]);
     }
 
     function periode(): View
     {
-        $periode = Periode::all();
+        $periode = DB::connection('pddikti')->table('mv_periode')->get();
+        // dd($periode);
         return view('pddikti.periode', ["periode" => $periode]);
     }
 }
