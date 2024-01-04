@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\PDDIKTI;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\pddikti\User as PddiktiUser;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,6 +24,6 @@ class UserPDDiktiSeeder extends Seeder
             ],
         ];
 
-        User::insert($users);
+        PddiktiUser::insert($users);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Nilai extends Model
 {
     use HasFactory;
+
     protected $connection = 'istts_kampus';
     public $table = 'mv_nilai';
     public $timestamps = true;

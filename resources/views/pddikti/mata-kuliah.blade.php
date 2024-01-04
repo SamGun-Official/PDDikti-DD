@@ -1,33 +1,35 @@
 @extends('pddikti.home')
 
 @section('content')
-    <h1>Mata Kuliah</h1>
+    <div class="mx-4 font-bold text-4xl">Mata Kuliah</div>
 @endsection
 
 @section('table')
-    <table border="1">
+    <table>
         <thead>
             <tr>
-                <th>Kode matkul</th>
-                <th>Nama matkul</th>
-                <th>Kode kelas</th>
-                <th>Periode</th>
-                <th>Nama dosen</th>
-                <th>sks</th>
+                <th class="border">Kode Matkul</th>
+                <th class="border">Nama Matkul</th>
+                <th class="border">Kode Kelas</th>
+                <th class="border">Periode</th>
+                <th class="border">Nama Dosen</th>
+                <th class="border">SKS</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($mata_kuliah as $item)
                 <tr>
-                    <td>{{$item->kode_matkul}}</td>
-                    <td>{{$item->nama_matkul}}</td>
-                    <td>{{$item->kode_kelas}}</td>
-                    <td>{{$item->id_periode}}</td>
-                    <td>{{$item->nama_lengkap}}</td>
-                    <td>{{$item->sks}}</td>
+                    <td class="border">{{ $item->kode_matkul }}</td>
+                    <td class="border">{{ $item->nama_matkul }}</td>
+                    <td class="border">{{ $item->kode_kelas }}</td>
+                    <td class="border">{{ $item->jenis_semester . ' ' . $item->tahun_ajaran }}</td>
+                    <td class="border">{{ $item->nama_lengkap }}</td>
+                    <td class="border">{{ $item->sks }}</td>
                 </tr>
             @empty
-                <tr><td>data kosong</td></tr>
+                <tr>
+                    <td>data kosong</td>
+                </tr>
             @endforelse
         </tbody>
     </table>

@@ -42,12 +42,12 @@ Route::prefix('kampus')->group(function () {
 
     Route::get('/dosen', [KampusController::class, 'dosen'])->name('kampus.dosen');
     Route::post('/dosen', [KampusController::class, 'insert_dosen'])->name('kampus.dosen.insert');
-    Route::post('/dosen/update', [KampusController::class, 'update_dosen'])->name('kampus.dosen.update');
+    Route::post('/dosen/update/{nidn_dosen}', [KampusController::class, 'update_dosen'])->name('kampus.dosen.update');
 
     Route::get('/kelas', [KampusController::class, 'kelas'])->name('kampus.kelas');
     Route::post('/kelas', [KampusController::class, 'insert_kelas'])->name('kampus.kelas.insert');
-    Route::post('/kelas/update', [KampusController::class, 'update_kelas'])->name('kampus.kelas.update');
-    Route::post('/kelas/delete', [KampusController::class, 'delete_kelas'])->name('kampus.kelas.delete');
+    Route::post('/kelas/update/{kode_matkul}/{nrp_mahasiswa}', [KampusController::class, 'update_kelas'])->name('kampus.kelas.update');
+    Route::post('/kelas/delete/{kode_matkul}/{nrp_mahasiswa}', [KampusController::class, 'delete_kelas'])->name('kampus.kelas.delete');
 
     Route::get('/mahasiswa', [KampusController::class, 'mahasiswa'])->name('kampus.mahasiswa');
     Route::post('/mahasiswa', [KampusController::class, 'insert_mahasiswa'])->name('kampus.mahasiswa.insert');
@@ -71,7 +71,7 @@ Route::prefix('pddikti')->group(function () {
     Route::get('/', [PddiktiController::class, 'home'])->name('pddikti.home');
 
     Route::get('/dosen', [PddiktiController::class, 'dosen'])->name('pddikti.dosen');
-    Route::post('/dosen/update', [PddiktiController::class, 'update_dosen'])->name('pddikti.dosen.update');
+    Route::post('/dosen/update/{nidn_dosen}', [PddiktiController::class, 'update_dosen'])->name('pddikti.dosen.update');
 
     Route::get('/mahasiswa', [PddiktiController::class, 'mahasiswa'])->name('pddikti.mahasiswa');
     Route::get('/mata-kuliah', [PddiktiController::class, 'mata_kuliah'])->name('pddikti.mata-kuliah');

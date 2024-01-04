@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MataKuliah extends Model
 {
     use HasFactory;
+
     protected $connection = 'istts_dosen';
     public $table = 'mv_mata_kuliah';
     public $primaryKey = 'kode_matkul';

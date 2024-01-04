@@ -1,31 +1,31 @@
 @extends('pddikti.home')
 
 @section('content')
-    <h1>Periode</h1>
+    <div class="mx-4 font-bold text-4xl">Periode</div>
 @endsection
 
 @section('table')
-    <table border="1">
+    <table>
         <thead>
             <tr>
-                <th>Periode</th>
-                <th>semester</th>
-                <th>tahun ajaran</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th class="border">ID Periode</th>
+                <th class="border">Asal Kampus</th>
+                <th class="border">Jenis Semester</th>
+                <th class="border">Tahun Ajaran</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($periode as $item)
-            <tr>
-                <td>{{$item->id_periode}}</td>
-                <td>{{$item->jenis_semester}}</td>
-                <td>{{$item->tahun_ajaran}}</td>
-                <td></td>
-                <td><button>cancel</button></td>
-            </tr>
+                <tr>
+                    <td class="border">{{ $item->id_periode }}</td>
+                    <td class="border">{{ $item->asal_kampus }}</td>
+                    <td class="border">{{ $item->jenis_semester }}</td>
+                    <td class="border">{{ $item->tahun_ajaran }}</td>
+                </tr>
             @empty
-                <tr><td>data kosong</td></tr>
+                <tr>
+                    <td>data kosong</td>
+                </tr>
             @endforelse
         </tbody>
     </table>
