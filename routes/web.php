@@ -17,8 +17,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [AuthController::class, 'loginPage']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
+Route::get('/login', [AuthController::class, 'loginPage'])->name('login');
+Route::post('/doLogin', [AuthController::class, 'login'])->name('doLogin');
+Route::get('/register', [AuthController::class, 'registerPage'])->name('register');
+Route::post('/doRegister', [AuthController::class, 'register'])->name('doRegister');
 
 Route::prefix('dosen')->group(function () {
     Route::get('/', [DosenController::class, 'home'])->name('dosen.home');
