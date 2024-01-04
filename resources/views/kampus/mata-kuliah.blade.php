@@ -1,76 +1,121 @@
 @extends('kampus.home')
 
 @section('content')
-    <h1>Mata Kuliah</h1>
+    <div class="flex flex-col mx-4">
+        <form action="{{ route('kampus.mata-kuliah.insert') }}" method="post">
+            @csrf
 
-    <form action="" method="post">
-        @csrf
-        <table>
-            <tr>
-                <td>Nama</td>
-                <td>:</td>
-                <td><input type="text" name="nama"></td>
-            </tr>
-            <tr>
-                <td>Semester</td>
-                <td>:</td>
-                <td>
-                    <input type="number" name="semester">
-                </td>
-            </tr>
-            <tr>
-                <td>SKS</td>
-                <td>:</td>
-                <td>
-                    <input type="number" name="sks">
-                </td>
-            </tr>
-            <tr>
-                <td>Dosen</td>
-                <td>:</td>
-                <td>
-                    <select name="dosen">
-                        <option value="1">Kevin Setiono S.Kom., M.Kom.</option>
-                        <option value="2">Iwan Chandra S.Kom., M.Kom.</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button>Submit</button>
-                </td>
-            </tr>
-        </table>
-        <hr>
-    </form>
+            <div class="font-bold text-4xl">Mata Kuliah</div>
+            <table>
+                <tr>
+                    <td>Kode Matkul</td>
+                    <td>:</td>
+                    <td><input type="text" name="kode_matkul"></td>
+                </tr>
+                <tr>
+                    <td>Nama Matkul</td>
+                    <td>:</td>
+                    <td><input type="text" name="nama_matkul"></td>
+                </tr>
+                <tr>
+                    <td>Kode Kelas</td>
+                    <td>:</td>
+                    <td><input type="text" name="kode_kelas"></td>
+                </tr>
+                <tr>
+                    <td>ID Periode</td>
+                    <td>:</td>
+                    <td>
+                        <select name="id_periode">
+                            @foreach ($periode as $item)
+                                <option value="{{ $item->id_periode }}">
+                                    {{ $item->jenis_semester . ' ' . $item->tahun_ajaran }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>NIDN Dosen</td>
+                    <td>:</td>
+                    <td>
+                        <select name="nidn_dosen">
+                            @foreach ($dosen as $item)
+                                <option value="{{ $item->nidn_dosen }}">
+                                    {{ $item->nama_lengkap }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>SKS</td>
+                    <td>:</td>
+                    <td>
+                        <input type="number" min="1" max="6" name="sks">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Asal Kampus</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" name="asal_kampus">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td>:</td>
+                    <td>
+                        <input type="checkbox" name="status">
+                    </td>
+                </tr>
+            </table>
+            <button class="bg-blue-500 px-2 py-4 rounded">Submit</button>
+        </form>
+    </div>
 @endsection
 
 @section('table')
-    <table border="1">
+    <table>
         <thead>
             <tr>
-                <th>Kode matkul</th>
-                <th>Nama matkul</th>
-                <th>Kode kelas</th>
-                <th>Periode</th>
-                <th>nidn dosen</th>
-                <th>sks</th>
-                <th>Action</th>
+                <th class="border">Kode Matkul</th>
+                <th class="border">Nama Matkul</th>
+                <th class="border">Kode Kelas</th>
+                <th class="border">ID Periode</th>
+                <th class="border">NIDN Dosen</th>
+                <th class="border">SKS</th>
+                <th class="border">Asal Kampus</th>
+                <th class="border">Status</th>
+                <th class="border">Action</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($mata_kuliah as $item)
                 <tr>
-                    <td>{{$item->kode_matkul}}</td>
-                    <td>{{$item->nama_matkul}}</td>
-                    <td>{{$item->kode_kelas}}</td>
-                    <td>{{$item->id_periode}}</td>
-                    <td>{{$item->nidn_dosen}}</td>
-                    <td>{{$item->sks}}</td>
-                    <td><button>non aktif</button></td>
+                    <td class="border">{{ $item->kode_matkul }}</td>
+                    <td class="border">{{ $item->nama_matkul }}</td>
+                    <td class="border">{{ $item->kode_kelas }}</td>
+                    <td class="border">{{ $item->jenis_semester . ' ' . $item->tahun_ajaran }}</td>
+                    <td class="border">{{ $item->nama_lengkap }}</td>
+                    <td class="border">{{ $item->sks }}</td>
+                    <td class="border">{{ $item->asal_kampus }}</td>
+                    <td class="border">{{ $item->status ? 'Aktif' : 'Nonaktif' }}</td>
+                    <td class="border">
+                        <form action="{{ route('kampus.mata-kuliah.update', $item->kode_matkul) }}" method="post">
+                            @csrf
+                            <button class="bg-blue-500 px-2 py-4 rounded">Update</button>
+                        </form>
+                        <form action="{{ route('kampus.mata-kuliah.delete', $item->kode_matkul) }}" method="post">
+                            @csrf
+                            <button class="bg-blue-500 px-2 py-4 rounded">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             @empty
-                <tr><td>data kosong</td></tr>
+                <tr>
+                    <td>data kosong</td>
+                </tr>
             @endforelse
         </tbody>
     </table>

@@ -153,9 +153,9 @@ class KampusController extends Controller
         return back()->with('success', 'Mahasiswa berhasil diubah');
     }
 
-    function update_status_mahasiswa($nrp)
+    function update_status_mahasiswa($nrp_mahasiswa)
     {
-        $mahasiswa = Mahasiswa::find($nrp);
+        $mahasiswa = Mahasiswa::find($nrp_mahasiswa);
 
         $mahasiswa->update([
             'status' => !$mahasiswa->status,
@@ -166,68 +166,66 @@ class KampusController extends Controller
         return back()->with('success', 'Status Mahasiswa berhasil diubah');
     }
 
-    function delete_mahasiswa()
+    function delete_mahasiswa($nrp_mahasiswa)
     {
-        // NOT POSSIBLE?
+        // NOT USED
+        DB::connection('istts_kampus')->table('mahasiswa')->where('nrp_mahasiswa', $nrp_mahasiswa)->first();
+        return back()->with('success', 'Mahasiswa berhasil dihapus');
     }
 
     function mata_kuliah(): View
     {
-        $mata_kuliah = DB::connection('istts_kampus')->table('mata_kuliah')->get();
+        $mata_kuliah = DB::connection('istts_kampus')->table('mata_kuliah')
+            ->join('periode', 'mata_kuliah.id_periode', 'periode.id_periode')
+            ->join('mv_dosen', 'mata_kuliah.nidn_dosen', 'mv_dosen.nidn_dosen')
+            ->get(['mata_kuliah.*', 'periode.tahun_ajaran', 'periode.jenis_semester', 'mv_dosen.nama_lengkap']);
+        $periode = DB::connection('istts_kampus')->table('periode')->orderBy('id_periode')->get();
+        $dosen = DB::connection('istts_kampus')->table('mv_dosen')->get();
         // dd($mata_kuliah);
-        return view('kampus.mata-kuliah', ["mata_kuliah" => $mata_kuliah]);
+        return view('kampus.mata-kuliah', compact("mata_kuliah", "periode", "dosen"));
     }
 
     function insert_mata_kuliah()
     {
         $data = request()->validate([
-            'nama' => 'required',
-            'semester' => 'required|min:0|max:9',
+            'kode_matkul' => 'required',
+            'nama_matkul' => 'required',
+            'kode_kelas' => 'required',
+            'id_periode' => 'required',
+            'nidn_dosen' => 'required',
             'sks' => 'required|min:1|max:6',
-            'dosen' => 'required',
+            'asal_kampus' => 'required',
         ]);
 
-        // $kode = generateKode();
+        $status = request()->status;
 
-        MataKuliah::create([
-            // 'kode' => $kode,
-            'nama' => $data['nama'],
-            'semester' => $data['semester'],
+        DB::connection('istts_kampus')->table('mata_kuliah')->insert([
+            'kode_matkul' => $data['kode_matkul'],
+            'nama_matkul' => $data['nama_matkul'],
+            'kode_kelas' => $data['kode_kelas'],
+            'id_periode' => $data['id_periode'],
+            'nidn_dosen' => $data['nidn_dosen'],
             'sks' => $data['sks'],
-            'id_dosen' => $data['dosen'],
-            'status' => 1,
+            'asal_kampus' => $data['asal_kampus'],
+            'status' => $status ? 1 : 0,
         ]);
-
-        DB::raw('commit;');
 
         return back()->with('success', 'Mata Kuliah berhasil ditambahkan');
     }
 
-    function update_mata_kuliah($kode)
+    function update_mata_kuliah($kode_matkul)
     {
-        $mata_kuliah = MataKuliah::find($kode);
+        $mata_kuliah = DB::connection('istts_kampus')->table('mata_kuliah')->where('kode_matkul', $kode_matkul)->first();
 
-        $data = request()->validate([
-            'nama' => 'required',
-            'semester' => 'required|min:0|max:9',
-            'sks' => 'required|min:1|max:6',
-            'dosen' => 'required',
+        DB::connection('istts_kampus')->table('mata_kuliah')->where('kode_matkul', $kode_matkul)->update([
+            'status' => !$mata_kuliah->status,
         ]);
-
-        $mata_kuliah->update($data);
-
-        DB::raw('commit;');
-
         return back()->with('success', 'Mata Kuliah berhasil diubah');
     }
 
-    function delete_mata_kuliah($kode)
+    function delete_mata_kuliah($kode_matkul)
     {
-        $mata_kuliah = MataKuliah::find($kode);
-        $mata_kuliah->delete();
-
-        DB::raw('commit;');
-
+        DB::connection('istts_kampus')->table('mata_kuliah')->where('kode_matkul', $kode_matkul)->delete();
         return back()->with('success', 'Mata Kuliah berhasil dihapus');
     }
 
@@ -242,7 +240,7 @@ class KampusController extends Controller
     {
         $periode = DB::connection('istts_kampus')->table('periode')->orderBy('id_periode')->get();
         // dd($periode);
-        return view('kampus.periode', ["periode" => $periode]);
+        return view('kampus.periode', compact("periode"));
     }
 
     function insert_periode()
