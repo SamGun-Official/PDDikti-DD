@@ -7,6 +7,12 @@ use App\Models\Kelas;
 use App\Models\Mahasiswa;
 use App\Models\MataKuliah;
 use App\Models\Nilai;
+use App\Models\pddikti\Dosen as PddiktiDosen;
+use App\Models\pddikti\Kelas as PddiktiKelas;
+use App\Models\pddikti\Mahasiswa as PddiktiMahasiswa;
+use App\Models\pddikti\MataKuliah as PddiktiMataKuliah;
+use App\Models\pddikti\Nilai as PddiktiNilai;
+use App\Models\pddikti\Periode as PddiktiPeriode;
 use App\Models\Periode;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -21,14 +27,13 @@ class PddiktiController extends Controller
 
     function dosen(): View
     {
-        $dosen = DB::connection('pddikti')->table('dosen')->get();
-        // dd($dosen);
+        $dosen = PddiktiDosen::all();
         return view('pddikti.dosen', ["dosen" => $dosen]);
     }
 
     function update_dosen($id)
     {
-        $dosen = Dosen::find($id);
+        $dosen = PddiktiDosen::find($id);
 
         $data = request()->validate([
             'nama' => 'required',
@@ -41,37 +46,34 @@ class PddiktiController extends Controller
         return back()->with('success', 'Dosen berhasil diubah');
     }
 
-    function kelas(): View
-    {
-        $kelas = Kelas::all();
-        return view('pddikti.kelas', ["kelas" => $kelas]);
-    }
+    // function kelas(): View
+    // {
+    //     $kelas = PddiktiKelas::all();
+    //     return view('pddikti.kelas', ["kelas" => $kelas]);
+    // }
 
     function mahasiswa(): View
     {
-        $mahasiswa = DB::connection('pddikti')->table('mv_mahasiswa')->get();
-        // dd($mahasiswa);
+        $mahasiswa = PddiktiMahasiswa::all();
         return view('pddikti.mahasiswa', ["mahasiswa" => $mahasiswa]);
     }
 
     function mata_kuliah(): View
     {
-        $mata_kuliah = DB::connection('pddikti')->table('mv_mata_kuliah')->get();
-        // dd($mata_kuliah);
+        $mata_kuliah = PddiktiMataKuliah::all();
         return view('pddikti.mata-kuliah', ["mata_kuliah" => $mata_kuliah]);
     }
 
     function nilai(): View
     {
-        $nilai = DB::connection('pddikti')->table('mv_nilai')->get();
-        // dd($nilai);
+        // $nilai = DB::connection('pddikti')->table('mv_nilai')->get();
+        $nilai = PddiktiNilai::all();
         return view('pddikti.nilai', ["nilai" => $nilai]);
     }
 
     function periode(): View
     {
-        $periode = DB::connection('pddikti')->table('mv_periode')->get();
-        // dd($periode);
+        $periode = PddiktiPeriode::all();
         return view('pddikti.periode', ["periode" => $periode]);
     }
 }
