@@ -51,13 +51,13 @@ Route::prefix('kampus')->group(function () {
 
     Route::get('/mahasiswa', [KampusController::class, 'mahasiswa'])->name('kampus.mahasiswa');
     Route::post('/mahasiswa', [KampusController::class, 'insert_mahasiswa'])->name('kampus.mahasiswa.insert');
-    Route::post('/mahasiswa/update', [KampusController::class, 'update_mahasiswa'])->name('kampus.mahasiswa.update');
-    Route::post('/mahasiswa/delete', [KampusController::class, 'delete_mahasiswa'])->name('kampus.mahasiswa.delete');
+    Route::post('/mahasiswa/update/{nrp_mahasiswa}', [KampusController::class, 'update_mahasiswa'])->name('kampus.mahasiswa.update');
+    Route::post('/mahasiswa/delete/{nrp_mahasiswa}', [KampusController::class, 'delete_mahasiswa'])->name('kampus.mahasiswa.delete');
 
     Route::get('/mata-kuliah', [KampusController::class, 'mata_kuliah'])->name('kampus.mata-kuliah');
     Route::post('/mata-kuliah', [KampusController::class, 'insert_mata_kuliah'])->name('kampus.mata-kuliah.insert');
-    Route::post('/mata-kuliah/update', [KampusController::class, 'update_mata_kuliah'])->name('kampus.mata-kuliah.update');
-    Route::post('/mata-kuliah/delete', [KampusController::class, 'delete_mata_kuliah'])->name('kampus.mata-kuliah.delete');
+    Route::post('/mata-kuliah/update/{kode_matkul}', [KampusController::class, 'update_mata_kuliah'])->name('kampus.mata-kuliah.update');
+    Route::post('/mata-kuliah/delete/{kode_matkul}', [KampusController::class, 'delete_mata_kuliah'])->name('kampus.mata-kuliah.delete');
 
     Route::get('/nilai', [KampusController::class, 'nilai'])->name('kampus.nilai');
 
