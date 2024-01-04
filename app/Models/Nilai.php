@@ -10,5 +10,13 @@ class Nilai extends Model
     use HasFactory;
 
     protected $table = 'nilai';
-    protected $fillable = ['kode', 'nrp', 'nilai'];
+    protected $timestamps = true;
+    protected $fillable = [
+        'kode_matkul',
+        'nrp_mahasiswa',
+        'nilai_uts',
+        'nilai_uas',
+        'nilai_akhir',
+        'asal_kampus',
+    ];
 }
