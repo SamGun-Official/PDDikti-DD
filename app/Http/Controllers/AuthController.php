@@ -26,11 +26,13 @@ class AuthController extends Controller
                 return redirect()->route('dosen.home');
             } else if ($user->role == 'baa') {
                 return redirect()->route('kampus.home');
-            } else {
+            } else if ($user->role == 'pddikti') {
                 return redirect()->route('pddikti.home');
+            } else {
+                return back()->with('error', 'Role invalid!');
             }
         } else {
-            return back()->with('error', 'Gagal login');
+            return back()->with('error', 'Gagal login!');
         }
     }
 }
