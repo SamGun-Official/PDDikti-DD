@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'oracle'),
 
     /*
     |--------------------------------------------------------------------------
@@ -95,46 +95,30 @@ return [
 
         'oracle' => [
             'driver' => 'oracle',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'localhost'),
+            'tns' => env('DB_TNS', ''),
+            'host' => env('DB_HOST', ''),
             'port' => env('DB_PORT', '1521'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
+            'database' => env('DB_DATABASE', ''),
+            'service_name' => env('DB_SERVICE_NAME', ''),
+            'username' => env('DB_USERNAME', ''),
             'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
-            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+            'charset' => env('DB_CHARSET', 'AL32UTF8'),
+            'prefix' => env('DB_PREFIX', ''),
+            'prefix_schema' => env('DB_SCHEMA_PREFIX', ''),
+            'edition' => env('DB_EDITION', 'ora$base'),
+            'server_version' => env('DB_SERVER_VERSION', '11g'),
+            'load_balance' => env('DB_LOAD_BALANCE', 'yes'),
+            'max_name_len' => env('ORA_MAX_NAME_LEN', 30),
+            'dynamic' => [],
+            'sessionVars' => [
+                'NLS_TIME_FORMAT' => 'HH24:MI:SS',
+                'NLS_DATE_FORMAT' => 'YYYY-MM-DD HH24:MI:SS',
+                'NLS_TIMESTAMP_FORMAT' => 'YYYY-MM-DD HH24:MI:SS',
+                'NLS_TIMESTAMP_TZ_FORMAT' => 'YYYY-MM-DD HH24:MI:SS TZH:TZM',
+                'NLS_NUMERIC_CHARACTERS' => '.,',
+            ],
         ],
-        'oracle_b' => [
-            'driver' => 'oracle',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST_B', 'localhost'),
-            'port' => env('DB_PORT_B', '1521'),
-            'database' => env('DB_DATABASE_B', 'forge'),
-            'username' => env('DB_USERNAME_B', 'forge'),
-            'password' => env('DB_PASSWORD_B', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
-            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
-        ],
-        'oracle_c' => [
-            'driver' => 'oracle',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST_C', 'localhost'),
-            'port' => env('DB_PORT_C', '1521'),
-            'database' => env('DB_DATABASE_C', 'forge'),
-            'username' => env('DB_USERNAME_C', 'forge'),
-            'password' => env('DB_PASSWORD_C', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
-            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
-        ],
+
     ],
 
     /*
@@ -167,7 +151,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
