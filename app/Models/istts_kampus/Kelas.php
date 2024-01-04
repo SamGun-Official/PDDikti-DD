@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Kelas extends Model
 {
     use HasFactory;
+
     protected $connection = 'istts_kampus';
     public $table = 'kelas';
     public $timestamps = true;

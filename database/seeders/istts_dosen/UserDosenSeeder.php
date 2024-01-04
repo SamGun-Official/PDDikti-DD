@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\ISTTS_DOSEN;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\istts_dosen\User as Istts_dosenUser;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -33,6 +32,6 @@ class UserDosenSeeder extends Seeder
             ],
         ];
 
-        User::insert($users);
+        Istts_dosenUser::insert($users);
     }
 }

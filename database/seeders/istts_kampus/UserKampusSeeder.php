@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\ISTTS_KAMPUS;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\istts_kampus\User as Istts_kampusUser;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -33,6 +32,6 @@ class UserKampusSeeder extends Seeder
             ],
         ];
 
-        User::insert($users);
+        Istts_kampusUser::insert($users);
     }
 }
