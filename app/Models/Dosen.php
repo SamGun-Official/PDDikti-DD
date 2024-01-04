@@ -9,10 +9,11 @@ class Dosen extends Model
 {
     use HasFactory;
 
-    protected $table = 'dosen';
-    protected $primaryKey = 'nidn_dosen';
-    protected $incrementing = false;
-    protected $timestamps = true;
+    public $table = 'dosen';
+    public $primaryKey = 'nidn_dosen';
+    public $incrementing = false;
+    public $timestamps = true;
+
     protected $fillable = [
         'nidn_dosen',
         'nik',

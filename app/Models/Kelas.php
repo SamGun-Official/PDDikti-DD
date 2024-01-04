@@ -9,8 +9,9 @@ class Kelas extends Model
 {
     use HasFactory;
 
-    protected $table = 'kelas';
-    protected $timestamps = true;
+    public $table = 'kelas';
+    public $timestamps = true;
+
     protected $fillable = [
         'kode_matkul',
         'nrp_mahasiswa',

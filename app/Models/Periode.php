@@ -9,10 +9,11 @@ class Periode extends Model
 {
     use HasFactory;
 
-    protected $table = 'periode';
-    protected $primaryKey = 'id_periode';
-    protected $incrementing = false;
-    protected $timestamps = true;
+    public $table = 'periode';
+    public $primaryKey = 'id_periode';
+    public $incrementing = false;
+    public $timestamps = true;
+
     protected $fillable = [
         'id_periode',
         'asal_kampus',

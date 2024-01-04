@@ -58,17 +58,17 @@ class TotalResetMigration extends Command
         ]);
         $this->call('migrate', [
             '--database' => 'pddikti',
-            '--seed' => '',
+            '--seed' => true,
             '--seeder' => 'DatabasePDDiktiSeeder',
         ]);
         $this->call('migrate', [
             '--database' => 'istts_kampus',
-            '--seed' => '',
+            '--seed' => true,
             '--seeder' => 'DatabaseKampusSeeder',
         ]);
         $this->call('migrate', [
             '--database' => 'istts_dosen',
-            '--seed' => '',
+            '--seed' => true,
             '--seeder' => 'DatabaseDosenSeeder',
         ]);
         $this->call('migrate', [

@@ -9,10 +9,11 @@ class MataKuliah extends Model
 {
     use HasFactory;
 
-    protected $table = 'mata_kuliah';
-    protected $primaryKey = 'kode_matkul';
-    protected $incrementing = false;
-    protected $timestamps = true;
+    public $table = 'mata_kuliah';
+    public $primaryKey = 'kode_matkul';
+    public $incrementing = false;
+    public $timestamps = true;
+
     protected $fillable = [
         'kode_matkul',
         'nama_matkul',
