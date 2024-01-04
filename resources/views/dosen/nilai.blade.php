@@ -3,16 +3,19 @@
 @section('content')
     <h1>Nilai</h1>
 
-    <form action="" method="post">
+    <form action="{{route('dosen.nilai.insert')}}" method="post">
         @csrf
         <table>
             <tr>
                 <td>Mata Kuliah</td>
                 <td>:</td>
                 <td>
-                    <select name="mata-kuliah">
-                        <option value="IN982">IN982 - Distributed Database</option>
-                        <option value="IN920">IN920 - Ethical Hacking</option>
+                    <select name="kode_matkul">
+                        @foreach ($mata_kuliah as $item)
+                        <option value="{{ $item->kode_matkul }}">
+                            {{ $item->kode_matkul . ' - ' . $item->nama_matkul }}
+                        </option>
+                    @endforeach
                     </select>
                 </td>
             </tr>
@@ -20,17 +23,30 @@
                 <td>Mahasiswa</td>
                 <td>:</td>
                 <td>
-                    <select name="mahasiswa">
-                        <option value="220116919">220116919</option>
-                        <option value="220116921">220116921</option>
-                        <option value="220116928">220116928</option>
+                    <select name="nrp_mahasiswa">
+                        @foreach ($mahasiswa as $item)
+                        <option value="{{ $item->nrp_mahasiswa }}">
+                            {{ $item->nrp_mahasiswa}}
+                        </option>
+
+                    @endforeach
                     </select>
                 </td>
             </tr>
             <tr>
-                <td>Nilai</td>
+                <td>Nilai UTS</td>
                 <td>:</td>
-                <td><input type="number" name="nilai"></td>
+                <td><input type="number" name="nilai_uts"></td>
+            </tr>
+            <tr>
+                <td>Nilai UAS</td>
+                <td>:</td>
+                <td><input type="number" name="nilai_uas"></td>
+            </tr>
+            <tr>
+                <td>Nilai AKHIR</td>
+                <td>:</td>
+                <td><input type="number" name="nilai_akhir"></td>
             </tr>
             <tr>
                 <td>

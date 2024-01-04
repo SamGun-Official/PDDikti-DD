@@ -10,6 +10,8 @@ class Nilai extends Model
     use HasFactory;
     protected $connection = 'istts_dosen';
     public $table = 'nilai';
+    protected $primaryKey = null;
+    public $incrementing = null;
     public $timestamps = true;
 
     protected $fillable = [
@@ -18,6 +20,8 @@ class Nilai extends Model
         'nilai_uts',
         'nilai_uas',
         'nilai_akhir',
-        'asal_kampus',
+            'asal_kampus',
+            // 'created_at',
+            // 'updated_at'
     ];
 }
