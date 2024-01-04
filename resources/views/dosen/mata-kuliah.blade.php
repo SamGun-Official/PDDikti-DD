@@ -8,31 +8,29 @@
     <table border="1">
         <thead>
             <tr>
-                <th>Kode</th>
-                <th>Nama</th>
-                <th>Jurusan</th>
-                <th>Semester</th>
-                <th>Dosen</th>
-                <th>Status</th>
+                <th>Kode Matkul</th>
+                <th>Nama Matkul</th>
+                <th>Kode Kelas</th>
+                <th>Periode</th>
+                <th>Nama Dosen</th>
+                <th>SKS</th>
             </tr>
         </thead>
         <tbody>
+            @forelse ($mata_kuliah as $item)
             <tr>
-                <td>IN982</td>
-                <td>Distributed Database</td>
-                <td>INF</td>
-                <td>7</td>
-                <td>1</td>
-                <td>1</td>
+                <td>{{$item->kode_matkul}}</td>
+                <td>{{$item->nama_matkul}}</td>
+                <td>{{$item->kode_kelas}}</td>
+                <td>{{$item->id_periode}}</td>
+                <td>{{$item->nidn_dosen}}</td>
+                <td>{{$item->sks}}</td>
             </tr>
+           @empty
             <tr>
-                <td>IN920</td>
-                <td>Ethical Hacking</td>
-                <td>INF</td>
-                <td>7</td>
-                <td>2</td>
-                <td>1</td>
+                <td>data kosong</td>
             </tr>
+           @endforelse
         </tbody>
     </table>
 @endsection
