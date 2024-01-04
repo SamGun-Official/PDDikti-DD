@@ -13,7 +13,7 @@ return new class extends Migration
     {
         // Dosen pindah kampus = Update data dosen yang sudah ada, bukan buat baru seperti kasusnya mahasiswa pindah kampus
         Schema::create('dosen', function (Blueprint $table) {
-            $table->string("nidn")->primary(); // Contoh: 0708036103
+            $table->string("nidn_dosen")->primary(); // Contoh: 0708036103
             $table->string("nik")->unique();
             $table->string("nama_lengkap");
             $table->enum("jenis_kelamin", ["Laki-laki", "Perempuan"]);

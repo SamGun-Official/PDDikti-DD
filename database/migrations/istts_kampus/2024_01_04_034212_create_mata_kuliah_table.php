@@ -15,8 +15,8 @@ return new class extends Migration
             $table->string("kode_matkul")->primary(); // Contoh: IF963
             $table->string("nama_matkul");
             $table->string("kode_kelas"); // Contoh: A, B, C, X
-            $table->integer("id_periode");
-            $table->integer("nidn_dosen");
+            $table->string("id_periode");
+            $table->string("nidn_dosen");
             $table->integer("sks");
             $table->string("asal_kampus"); // Contoh: INSTITUT SAINS DAN TEKNOLOGI TERPADU SURABAYA
             $table->boolean("status"); // 1 = Active, 2 = Inactive

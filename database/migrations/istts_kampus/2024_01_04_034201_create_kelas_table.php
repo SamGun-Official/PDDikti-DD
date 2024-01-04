@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('kelas', function (Blueprint $table) {
-            // $table->string("id_kelas")->primary(); // Random ID, misal ISTTS001
             $table->string("kode_matkul");
             $table->string("nrp_mahasiswa");
             $table->unique(['kode_matkul', 'nrp_mahasiswa']);

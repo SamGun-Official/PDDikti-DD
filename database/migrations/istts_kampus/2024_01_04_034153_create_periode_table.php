@@ -12,9 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('periode', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id_periode')->primary(); // Contoh: ISTTS001
             $table->string("asal_kampus"); // Contoh: INSTITUT SAINS DAN TEKNOLOGI TERPADU SURABAYA
-            $table->unique(['id', 'asal_kampus']);
             $table->enum("jenis_semester", ["Ganjil", "Genap"]);
             $table->string("tahun_ajaran");
             $table->timestamps();
