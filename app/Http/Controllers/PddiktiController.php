@@ -60,14 +60,18 @@ class PddiktiController extends Controller
 
     function mata_kuliah(): View
     {
-        $mata_kuliah = PddiktiMataKuliah::all();
+        $mata_kuliah =  PddiktiMataKuliah::join('dosen', 'mv_mata_kuliah.nidn_dosen', '=','dosen.nidn_dosen')
+        ->get(['mv_mata_kuliah.*','dosen.nama_lengkap']);
+        // dd($mata_kuliah);
         return view('pddikti.mata-kuliah', ["mata_kuliah" => $mata_kuliah]);
     }
 
     function nilai(): View
     {
-        // $nilai = DB::connection('pddikti')->table('mv_nilai')->get();
         $nilai = PddiktiNilai::all();
+        // dd($nilai);
+        $nilai =  PddiktiNilai::join('mv_mahasiswa', 'mv_nilai.nrp_mahasiswa', '=','mv_mahasiswa.nrp_mahasiswa')
+        ->get(['mv_nilai.*','mv_mahasiswa.nama_lengkap']);
         return view('pddikti.nilai', ["nilai" => $nilai]);
     }
 

@@ -19,7 +19,7 @@
             @forelse ($nilai as $item)
             <tr>
                 <td>{{$item->kode_matkul}}</td>
-                <td>{{$item->nrp_mahasiswa}}</td>
+                <td>{{$item->nama_lengkap}}</td>
                 <td>{{$item->nilai_uts}}</td>
                 <td>{{$item->nilai_uas}}</td>
                 <td>{{$item->nilai_akhir}}</td>

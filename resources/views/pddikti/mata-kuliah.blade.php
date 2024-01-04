@@ -12,7 +12,7 @@
                 <th>Nama matkul</th>
                 <th>Kode kelas</th>
                 <th>Periode</th>
-                <th>nidn dosen</th>
+                <th>Nama dosen</th>
                 <th>sks</th>
             </tr>
         </thead>
@@ -23,7 +23,7 @@
                     <td>{{$item->nama_matkul}}</td>
                     <td>{{$item->kode_kelas}}</td>
                     <td>{{$item->id_periode}}</td>
-                    <td>{{$item->nidn_dosen}}</td>
+                    <td>{{$item->nama_lengkap}}</td>
                     <td>{{$item->sks}}</td>
                 </tr>
             @empty
