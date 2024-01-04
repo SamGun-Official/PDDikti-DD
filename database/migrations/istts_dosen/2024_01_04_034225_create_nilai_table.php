@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->string("asal_kampus"); // Contoh: INSTITUT SAINS DAN TEKNOLOGI TERPADU SURABAYA
             $table->timestamps();
         });
+        DB::statement("CREATE MATERIALIZED VIEW LOG ON nilai");
     }
 
     /**
@@ -29,5 +31,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('nilai');
+        DB::statement("DROP MATERIALIZED VIEW LOG ON nilai");
     }
 };

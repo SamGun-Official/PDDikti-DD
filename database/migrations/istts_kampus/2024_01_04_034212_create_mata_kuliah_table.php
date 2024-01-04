@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("nidn_dosen");
             $table->integer("sks");
             $table->string("asal_kampus"); // Contoh: INSTITUT SAINS DAN TEKNOLOGI TERPADU SURABAYA
-            $table->boolean("status"); // 1 = Active, 2 = Inactive
+            $table->boolean("status"); // 1 = Active, 0 = Inactive
             $table->timestamps();
         });
     }

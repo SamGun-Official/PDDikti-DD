@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->enum("status", ["Aktif", "Non-Aktif", "Lulus"]);
             $table->timestamps();
         });
+        DB::statement("CREATE MATERIALIZED VIEW LOG ON mahasiswa");
     }
 
     /**
@@ -30,5 +32,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('mahasiswa');
+        DB::statement("DROP MATERIALIZED VIEW LOG ON mahasiswa");
     }
 };

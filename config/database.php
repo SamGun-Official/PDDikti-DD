@@ -117,6 +117,10 @@ return [
                 'NLS_TIMESTAMP_TZ_FORMAT' => 'YYYY-MM-DD HH24:MI:SS TZH:TZM',
                 'NLS_NUMERIC_CHARACTERS' => '.,',
             ],
+            'dblink_1' => env('DB_DBLINK_1', ''),
+            'dblink_2' => env('DB_DBLINK_2', ''),
+            'dblink_3' => env('DB_DBLINK_3', ''),
+            'dblink_4' => env('DB_DBLINK_4', ''),
         ],
 
     ],
