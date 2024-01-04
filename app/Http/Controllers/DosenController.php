@@ -26,6 +26,11 @@ class DosenController extends Controller
     function mata_kuliah(): View
     {
         $mata_kuliah = DB::connection('istts_dosen')->table('mv_mata_kuliah')->get();
+        // $mata_kuliah = DB::connection('istts_dosen')->table('mv_mata_kuliah as mk')->
+        // select('mk.kode_matkul', 'md.nama_lengkap')->
+        // join('istts_kampus.mv_dosen as md', 'mk.nidn_dosen', '=', 'md.nidn_dosen')
+        // ->paginate();
+        // $mata_kuliah = MataKuliah::all(); // pake model
         // dd($mata_kuliah);
         return view('dosen.mata-kuliah', ["mata_kuliah" => $mata_kuliah]);
     }
