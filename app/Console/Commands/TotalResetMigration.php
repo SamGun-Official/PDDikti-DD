@@ -101,6 +101,41 @@ class TotalResetMigration extends Command
                     dbms_mview.refresh(\'mv_dosen\', \'f\');
                 END;
             ');
+            DB::connection(env("DB_CONNECTION_ISTTSKAMPUS", ""))->unprepared('
+                CREATE OR REPLACE PROCEDURE update_data_dosen(
+                    nidn_dosen VARCHAR2,
+                    nik VARCHAR2,
+                    nama_lengkap VARCHAR2,
+                    jenis_kelamin VARCHAR2,
+                    email VARCHAR2,
+                    tanggal_lahir DATE,
+                    asal_kampus VARCHAR2,
+                    jabatan_fungsional VARCHAR2,
+                    pendidikan_terakhir VARCHAR2,
+                    ikatan_kerja VARCHAR2,
+                    program_studi VARCHAR2,
+                    status VARCHAR2,
+                    created_at TIMESTAMP,
+                    updated_at TIMESTAMP
+                ) AS BEGIN
+                    UPDATE dosen@' . env('DB_DBLINK_2', '') . ' SET
+                        nik = nik,
+                        nama_lengkap = nama_lengkap,
+                        jenis_kelamin = jenis_kelamin,
+                        email = email,
+                        tanggal_lahir = tanggal_lahir,
+                        asal_kampus = asal_kampus,
+                        jabatan_fungsional = jabatan_fungsional,
+                        pendidikan_terakhir = pendidikan_terakhir,
+                        ikatan_kerja = ikatan_kerja,
+                        program_studi = program_studi,
+                        status = status,
+                        created_at = created_at,
+                        updated_at = updated_at
+                    WHERE nidn_dosen = nidn_dosen;
+                    dbms_mview.refresh(\'mv_dosen\', \'f\');
+                END;
+            ');
         } catch (QueryException $qe) {
             Log::error($qe->getMessage());
         }
