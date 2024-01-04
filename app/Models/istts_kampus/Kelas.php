@@ -11,6 +11,8 @@ class Kelas extends Model
 
     protected $connection = 'istts_kampus';
     public $table = 'kelas';
+    protected $primaryKey = null;
+    public $incrementing = false;
     public $timestamps = true;
 
     protected $fillable = [

@@ -100,7 +100,7 @@
                     <td class="border">{{ $item->nama_lengkap }}</td>
                     <td class="border">{{ $item->sks }}</td>
                     <td class="border">{{ $item->asal_kampus }}</td>
-                    <td class="border">{{ $item->status ? 'Aktif' : 'Nonaktif' }}</td>
+                    <td class="border">{{ $item->status ? 'Aktif' : 'Non-Aktif' }}</td>
                     <td class="border">
                         <form action="{{ route('kampus.mata-kuliah.update', $item->kode_matkul) }}" method="post">
                             @csrf
