@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\istts_dosen\Kelas as Istts_dosenKelas;
+use App\Models\istts_dosen\MataKuliah as Istts_dosenMataKuliah;
+use App\Models\istts_dosen\Nilai as Istts_dosenNilai;
 use App\Models\Kelas;
 use App\Models\MataKuliah;
 use App\Models\Nilai;
@@ -18,26 +21,25 @@ class DosenController extends Controller
 
     function kelas(): View
     {
-        $kelas = DB::connection('istts_dosen')->table('mv_kelas')->get();
-        // dd($kelas);
+        $kelas = Istts_dosenKelas::all();
         return view('dosen.kelas', ["kelas" => $kelas]);
     }
 
     function mata_kuliah(): View
     {
-        $mata_kuliah = DB::connection('istts_dosen')->table('mv_mata_kuliah')->get();
         // $mata_kuliah = DB::connection('istts_dosen')->table('mv_mata_kuliah as mk')->
         // select('mk.kode_matkul', 'md.nama_lengkap')->
         // join('istts_kampus.mv_dosen as md', 'mk.nidn_dosen', '=', 'md.nidn_dosen')
         // ->paginate();
         // $mata_kuliah = MataKuliah::all(); // pake model
         // dd($mata_kuliah);
+        $mata_kuliah = Istts_dosenMataKuliah::all();
         return view('dosen.mata-kuliah', ["mata_kuliah" => $mata_kuliah]);
     }
 
     function nilai(): View
     {
-        $nilai = DB::connection('istts_dosen')->table('nilai')->get();
+        $nilai = Istts_dosenNilai::all();
         // dd($nilai);
         return view('dosen.nilai', ["nilai" => $nilai]);
 
@@ -52,7 +54,7 @@ class DosenController extends Controller
             'nilai' => 'required|min:0|max:100',
         ]);
 
-        Nilai::create([
+        Istts_dosenNilai::create([
             'kode' => $data['mata-kuliah'],
             'nrp' => $data['mahasiswa'],
             'nilai' => $data['nilai'],
@@ -65,7 +67,7 @@ class DosenController extends Controller
 
     function update_nilai($kode, $nrp)
     {
-        $nilai = Nilai::where('kode', $kode)->where('nrp', $nrp)->first();
+        $nilai = Istts_dosenNilai::where('kode', $kode)->where('nrp', $nrp)->first();
 
         $data = request()->validate([
             'nilai' => 'required|min:0|max:100',
@@ -80,7 +82,7 @@ class DosenController extends Controller
 
     function delete_nilai($kode, $nrp)
     {
-        $nilai = Nilai::where('kode', $kode)->where('nrp', $nrp)->first();
+        $nilai = Istts_dosenNilai::where('kode', $kode)->where('nrp', $nrp)->first();
         $nilai->delete();
 
         DB::raw('commit;');
