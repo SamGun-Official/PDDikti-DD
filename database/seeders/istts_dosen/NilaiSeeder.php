@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\istts_dosen;
 
-use App\Models\Nilai;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\istts_dosen\Nilai as Istts_dosenNilai;
 use Illuminate\Database\Seeder;
 
 class NilaiSeeder extends Seeder
@@ -64,6 +63,6 @@ class NilaiSeeder extends Seeder
             ],
         ];
 
-        Nilai::insert($nilai);
+        Istts_dosenNilai::insert($nilai);
     }
 }
