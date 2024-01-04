@@ -55,18 +55,26 @@ class DosenController extends Controller
         ]);
         $asal = Istts_dosenMataKuliah::where('kode_matkul' , '=', $data['kode_matkul'])->select('asal_kampus')->get();
         // dd($asal[0]->asal_kampus);
-        Istts_dosenNilai::create([
-            'kode_matkul' => $data['kode_matkul'],
-            'nrp_mahasiswa' => $data['nrp_mahasiswa'],
-            'nilai_uts' => $data['nilai_uts'],
-            'nilai_uas' => $data['nilai_uas'],
-            'nilai_akhir' => $data['nilai_akhir'],
-            'asal_kampus' => $asal[0]->asal_kampus,
-            // 'created_at' => now(),
-            // 'updated_at' => now(),
 
-        ]);
+        $connection = "istts_dosen";
+        try {
+            DB::connection($connection)->beginTransaction();
+                Istts_dosenNilai::create([
+                    'kode_matkul' => $data['kode_matkul'],
+                    'nrp_mahasiswa' => $data['nrp_mahasiswa'],
+                    'nilai_uts' => $data['nilai_uts'],
+                    'nilai_uas' => $data['nilai_uas'],
+                    'nilai_akhir' => $data['nilai_akhir'],
+                    'asal_kampus' => $asal[0]->asal_kampus,
+                    // 'created_at' => now(),
+                    // 'updated_at' => now(),
 
+                ]);
+                DB::connection($connection)->commit();
+        } catch (\Throwable $e) {
+            DB::connection($connection)->rollBack();
+            return back()->with("error", $e);
+        }
         // DB::raw('commit;');
 
         return back()->with('success', 'Nilai berhasil ditambahkan');
