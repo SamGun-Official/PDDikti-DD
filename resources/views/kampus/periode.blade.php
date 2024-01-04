@@ -39,7 +39,7 @@
 @endsection
 
 @section('table')
-    <table class="border">
+    <table>
         <thead>
             <tr>
                 <th class="border">ID Periode</th>
