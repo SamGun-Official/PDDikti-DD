@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\pddikti;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +9,8 @@ class Mahasiswa extends Model
 {
     use HasFactory;
 
-    public $table = 'mahasiswa';
+    protected $connection = 'pddikti';
+    public $table = 'mv_mahasiswa';
     public $primaryKey = 'nrp_mahasiswa';
     public $incrementing = false;
     public $timestamps = true;

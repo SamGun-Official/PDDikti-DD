@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\pddikti;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +9,7 @@ class Dosen extends Model
 {
     use HasFactory;
 
+    protected $connection = 'pddikti';
     public $table = 'dosen';
     public $primaryKey = 'nidn_dosen';
     public $incrementing = false;

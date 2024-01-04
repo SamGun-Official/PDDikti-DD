@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\pddikti;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +9,8 @@ class Nilai extends Model
 {
     use HasFactory;
 
-    public $table = 'nilai';
+    protected $connection = 'pddikti';
+    public $table = 'mv_nilai';
     public $timestamps = true;
 
     protected $fillable = [

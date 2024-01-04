@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\istts_kampus;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -8,10 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MataKuliah extends Model
 {
     use HasFactory;
-
-    // protected $connection = 'istts_dosen';
-    // public $table = 'mv_mata_kuliah';
-
+    protected $connection = 'istts_kampus';
     public $table = 'mata_kuliah';
     public $primaryKey = 'kode_matkul';
     public $incrementing = false;

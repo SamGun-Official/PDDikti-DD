@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\pddikti;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +9,8 @@ class Periode extends Model
 {
     use HasFactory;
 
-    public $table = 'periode';
+    protected $connection = 'pddikti';
+    public $table = 'mv_periode';
     public $primaryKey = 'id_periode';
     public $incrementing = false;
     public $timestamps = true;
