@@ -80,7 +80,7 @@ class TotalResetMigration extends Command
                     program_studi VARCHAR2,
                     status VARCHAR2,
                     created_at TIMESTAMP,
-                    updated_at TIMESTAMP,
+                    updated_at TIMESTAMP
                 ) AS BEGIN
                     INSERT INTO dosen@' . env('DB_DBLINK_2', '') . ' VALUES(
                         nidn_dosen,
@@ -98,7 +98,7 @@ class TotalResetMigration extends Command
                         created_at,
                         updated_at
                     );
-                    dbms_mview.refresh(mv_dosen@' . env('DB_DBLINK_1', '') . ', \'f\');
+                    dbms_mview.refresh(\'mv_dosen\', \'f\');
                 END;
             ');
         } catch (QueryException $qe) {
