@@ -4,10 +4,11 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use Database\Seeders\istts_dosen\NilaiSeeder;
 use Database\Seeders\ISTTS_DOSEN\UserDosenSeeder;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class DatabaseDosenSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -15,5 +16,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([UserDosenSeeder::class]);
+        $this->call([NilaiSeeder::class]);
     }
 }

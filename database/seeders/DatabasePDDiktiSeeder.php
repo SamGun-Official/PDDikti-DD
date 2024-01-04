@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use Database\Seeders\pddikti\DosenSeeder;
 use Database\Seeders\PDDikti\UserPDDiktiSeeder;
 use Illuminate\Database\Seeder;
 
@@ -15,5 +16,6 @@ class DatabasePDDiktiSeeder extends Seeder
     public function run(): void
     {
         $this->call([UserPDDiktiSeeder::class]);
+        $this->call([DosenSeeder::class]);
     }
 }
