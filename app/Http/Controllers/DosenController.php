@@ -18,22 +18,25 @@ class DosenController extends Controller
 
     function kelas(): View
     {
-        $kelas = Kelas::all();
+        $kelas = DB::connection('istts_dosen')->table('mv_kelas')->get();
+        // dd($kelas);
         return view('dosen.kelas', ["kelas" => $kelas]);
     }
 
     function mata_kuliah(): View
     {
-        $mata_kuliah = MataKuliah::all();
+        $mata_kuliah = DB::connection('istts_dosen')->table('mv_mata_kuliah')->get();
+        // dd($mata_kuliah);
         return view('dosen.mata-kuliah', ["mata_kuliah" => $mata_kuliah]);
     }
 
     function nilai(): View
     {
-        // $nilai = Nilai::all();
-        // return view('dosen.nilai', ["nilai" => $nilai]);
+        $nilai = DB::connection('istts_dosen')->table('nilai')->get();
+        // dd($nilai);
+        return view('dosen.nilai', ["nilai" => $nilai]);
 
-        return view('dosen.nilai');
+        // return view('dosen.nilai');
     }
 
     function insert_nilai(Request $request)

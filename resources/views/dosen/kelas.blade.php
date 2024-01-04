@@ -13,26 +13,16 @@
             </tr>
         </thead>
         <tbody>
+           @forelse ($kelas as $item)
             <tr>
-                <td>IN982</td>
-                <td>220116919</td>
+                <td>{{$item->kode_matkul}}</td>
+                <td>{{$item->nrp_mahasiswa}}</td>
             </tr>
+           @empty
             <tr>
-                <td>IN982</td>
-                <td>220116921</td>
+                <td>data kosong</td>
             </tr>
-            <tr>
-                <td>IN982</td>
-                <td>220116928</td>
-            </tr>
-            <tr>
-                <td>IN920</td>
-                <td>220116919</td>
-            </tr>
-            <tr>
-                <td>IN920</td>
-                <td>220116928</td>
-            </tr>
+           @endforelse
         </tbody>
     </table>
 @endsection
