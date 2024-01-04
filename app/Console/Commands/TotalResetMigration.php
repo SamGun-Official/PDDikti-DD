@@ -3,6 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TotalResetMigration extends Command
 {
@@ -25,18 +28,22 @@ class TotalResetMigration extends Command
      */
     public function handle()
     {
-        $this->call('migrate', [
-            '--database' => 'istts_kampus',
-            '--path' => 'database/migrations/istts_kampus/pre_migrate',
-        ]);
-        $this->call('migrate', [
-            '--database' => 'pddikti',
-            '--path' => 'database/migrations/pddikti/pre_migrate',
-        ]);
-        $this->call('migrate', [
-            '--database' => 'istts_dosen',
-            '--path' => 'database/migrations/istts_dosen/pre_migrate',
-        ]);
+        try {
+            DB::connection(env("DB_CONNECTION_ISTTSKAMPUS", ""))->statement("DROP MATERIALIZED VIEW mv_nilai");
+            DB::connection(env("DB_CONNECTION_ISTTSKAMPUS", ""))->statement("DROP MATERIALIZED VIEW mv_dosen");
+
+            DB::connection(env("DB_CONNECTION_PDDIKTI", ""))->statement("DROP MATERIALIZED VIEW mv_mahasiswa");
+            DB::connection(env("DB_CONNECTION_PDDIKTI", ""))->statement("DROP MATERIALIZED VIEW mv_periode");
+            DB::connection(env("DB_CONNECTION_PDDIKTI", ""))->statement("DROP MATERIALIZED VIEW mv_kelas");
+            DB::connection(env("DB_CONNECTION_PDDIKTI", ""))->statement("DROP MATERIALIZED VIEW mv_mata_kuliah");
+            DB::connection(env("DB_CONNECTION_PDDIKTI", ""))->statement("DROP MATERIALIZED VIEW mv_nilai");
+
+            DB::connection(env("DB_CONNECTION_ISTTSDOSEN", ""))->statement("DROP MATERIALIZED VIEW mv_kelas");
+            DB::connection(env("DB_CONNECTION_ISTTSDOSEN", ""))->statement("DROP MATERIALIZED VIEW mv_mata_kuliah");
+        } catch (QueryException $qe) {
+            Log::error($qe->getMessage());
+        }
+
         $this->call('migrate:fresh', [
             '--database' => 'pddikti',
             '--path' => 'database/migrations/pddikti',
