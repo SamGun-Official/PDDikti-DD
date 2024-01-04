@@ -63,8 +63,8 @@ Route::prefix('kampus')->group(function () {
 
     Route::get('/periode', [KampusController::class, 'periode'])->name('kampus.periode');
     Route::post('/periode', [KampusController::class, 'insert_periode'])->name('kampus.periode.insert');
-    Route::post('/periode/update', [KampusController::class, 'update_periode'])->name('kampus.periode.update');
-    Route::post('/periode/delete', [KampusController::class, 'delete_periode'])->name('kampus.periode.delete');
+    Route::post('/periode/update/{id_periode}', [KampusController::class, 'update_periode'])->name('kampus.periode.update');
+    Route::post('/periode/delete/{id_periode}', [KampusController::class, 'delete_periode'])->name('kampus.periode.delete');
 });
 
 Route::prefix('pddikti')->group(function () {
