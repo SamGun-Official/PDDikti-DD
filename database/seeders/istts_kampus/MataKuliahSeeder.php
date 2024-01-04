@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\istts_kampus;
 
-use App\Models\MataKuliah;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\istts_kampus\MataKuliah as Istts_kampusMataKuliah;
 use Illuminate\Database\Seeder;
 
 class MataKuliahSeeder extends Seeder
@@ -36,6 +35,6 @@ class MataKuliahSeeder extends Seeder
             ],
         ];
 
-        MataKuliah::insert($mata_kuliah);
+        Istts_kampusMataKuliah::insert($mata_kuliah);
     }
 }

@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\istts_kampus;
 
-use App\Models\Periode;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\istts_kampus\Periode as Istts_kampusPeriode;
 use Illuminate\Database\Seeder;
 
 class PeriodeSeeder extends Seeder
@@ -64,6 +63,6 @@ class PeriodeSeeder extends Seeder
             ],
         ];
 
-        Periode::insert($periode);
+        Istts_kampusPeriode::insert($periode);
     }
 }

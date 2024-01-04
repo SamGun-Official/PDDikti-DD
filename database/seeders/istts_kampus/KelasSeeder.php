@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\istts_kampus;
 
-use App\Models\Kelas;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\istts_kampus\Kelas as Istts_kampusKelas;
 use Illuminate\Database\Seeder;
 
 class KelasSeeder extends Seeder
@@ -46,6 +45,6 @@ class KelasSeeder extends Seeder
             ],
         ];
 
-        Kelas::insert($kelas);
+        Istts_kampusKelas::insert($kelas);
     }
 }

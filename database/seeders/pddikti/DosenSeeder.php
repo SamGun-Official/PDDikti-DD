@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\pddikti;
 
-use App\Models\Dosen;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\pddikti\Dosen as PddiktiDosen;
 use Illuminate\Database\Seeder;
 
 class DosenSeeder extends Seeder
@@ -44,6 +43,6 @@ class DosenSeeder extends Seeder
             ],
         ];
 
-        Dosen::insert($dosen);
+        PddiktiDosen::insert($dosen);
     }
 }

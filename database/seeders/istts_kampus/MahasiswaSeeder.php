@@ -2,8 +2,7 @@
 
 namespace Database\Seeders\istts_kampus;
 
-use App\Models\Mahasiswa;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\istts_kampus\Mahasiswa as Istts_kampusMahasiswa;
 use Illuminate\Database\Seeder;
 
 class MahasiswaSeeder extends Seeder
@@ -46,6 +45,6 @@ class MahasiswaSeeder extends Seeder
             ]
         ];
 
-        Mahasiswa::insert($mahasiswa);
+        Istts_kampusMahasiswa::insert($mahasiswa);
     }
 }
