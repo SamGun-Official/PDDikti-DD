@@ -21,10 +21,11 @@ class KampusController extends Controller
 
     function dosen(): View
     {
-        // $dosen = Dosen::all();
-        // return view('kampus.dosen', ["dosen" => $dosen]);
+        $dosen = DB::connection('istts_kampus')->table('mv_dosen')->get();
+        // dd($dosen);
+        return view('kampus.dosen', ["dosen" => $dosen]);
 
-        return view('kampus.dosen');
+        // return view('kampus.dosen');
     }
 
     function insert_dosen(Request $request)
