@@ -10,8 +10,6 @@ use App\Models\istts_kampus\Nilai;
 use App\Models\istts_kampus\Periode;
 use App\Models\pddikti\Dosen as PddiktiDosen;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class KampusController extends Controller
 {

@@ -71,7 +71,7 @@ Route::prefix('pddikti')->group(function () {
     Route::get('/', [PddiktiController::class, 'home'])->name('pddikti.home');
 
     Route::get('/dosen', [PddiktiController::class, 'dosen'])->name('pddikti.dosen');
-    Route::post('/dosen/update', [PddiktiController::class, 'update_dosen'])->name('pddikti.dosen.update');
+    Route::post('/dosen/update/{nidn_dosen}', [PddiktiController::class, 'update_dosen'])->name('pddikti.dosen.update');
 
     Route::get('/mahasiswa', [PddiktiController::class, 'mahasiswa'])->name('pddikti.mahasiswa');
     Route::get('/mata-kuliah', [PddiktiController::class, 'mata_kuliah'])->name('pddikti.mata-kuliah');

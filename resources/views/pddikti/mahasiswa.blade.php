@@ -1,40 +1,40 @@
 @extends('pddikti.home')
 
 @section('content')
-    <h1>Mahasiswa</h1>
+    <div class="mx-4 font-bold text-4xl">Mahasiswa</div>
 @endsection
 
 @section('table')
-    <table border="1">
+    <table>
         <thead>
             <tr>
-                <th>NRP</th>
-                <th>Nama Lengkap</th>
-                <th>Jenis kelamin</th>
-                <th>Tanggal lahir</th>
-                <th>asal kampus</th>
-                <th>Jenjang</th>
-                <th>Semester awal</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th class="border">NRP Mahasiswa</th>
+                <th class="border">Nama Lengkap</th>
+                <th class="border">Jenis Kelamin</th>
+                <th class="border">Tanggal Lahir</th>
+                <th class="border">Asal Kampus</th>
+                <th class="border">Jenjang</th>
+                <th class="border">Semester Awal</th>
+                <th class="border">Status</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($mahasiswa as $item)
-            <tr>
-                <td>{{$item->nrp_mahasiswa}}</td>
-                <td>{{$item->nama_lengkap}}</td>
-                <td>{{$item->jenis_kelamin}}</td>
-                <td>{{$item->tanggal_lahir}}</td>
-                <td>{{$item->asal_kampus}}</td>
-                <td>{{$item->jenjang}}</td>
-                <td>{{$item->semester_awal}}</td>
-                <td>{{$item->status}}</td>
-                <td><button>non aktif</button></td>
-            </tr>
-        @empty
-            <tr><td>Data kosong</td></tr>
-        @endforelse
+                <tr>
+                    <td class="border">{{ $item->nrp_mahasiswa }}</td>
+                    <td class="border">{{ $item->nama_lengkap }}</td>
+                    <td class="border">{{ $item->jenis_kelamin }}</td>
+                    <td class="border">{{ date('d/m/Y', strtotime($item->tanggal_lahir)) }}</td>
+                    <td class="border">{{ $item->asal_kampus }}</td>
+                    <td class="border">{{ $item->jenjang }}</td>
+                    <td class="border">{{ $item->semester_awal }}</td>
+                    <td class="border">{{ $item->status }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td>Data kosong</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 @endsection

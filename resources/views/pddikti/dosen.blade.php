@@ -1,45 +1,54 @@
 @extends('pddikti.home')
 
 @section('content')
-    <h1>Dosen</h1>
+    <div class="mx-4 font-bold text-4xl">Dosen</div>
 @endsection
 
 @section('table')
-    <table border="1">
+    <table>
         <thead>
             <tr>
-                <th>NIDN Dosen</th>
-                <th>NIK</th>
-                <th>Nama Lengkap</th>
-                <th>Jenis Kelamin</th>
-                <th>Email</th>
-                <th>Tanggal Lahir</th>
-                <th>Asal Kampus</th>
-                <th>Jabatan Fungsional</th>
-                <th>Pedidikan Terakhir</th>
-                <th>Ikatan Kerja</th>
-                <th>Program Studi</th>
-                <th>Status</th>
+                <th class="border">NIDN Dosen</th>
+                <th class="border">NIK</th>
+                <th class="border">Nama Lengkap</th>
+                <th class="border">Jenis Kelamin</th>
+                <th class="border">Email</th>
+                <th class="border">Tanggal Lahir</th>
+                <th class="border">Asal Kampus</th>
+                <th class="border">Jabatan Fungsional</th>
+                <th class="border">Pendidikan Terakhir</th>
+                <th class="border">Ikatan Kerja</th>
+                <th class="border">Program Studi</th>
+                <th class="border">Status</th>
+                <th class="border">Action</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($dosen as $item)
-            <tr>
-                <td>{{$item->nidn_dosen}}</td>
-                    <td>{{$item->nik}}</td>
-                    <td>{{$item->nama_lengkap}}</td>
-                    <td>{{$item->jenis_kelamin}}</td>
-                    <td>{{$item->email}}</td>
-                    <td>{{$item->tanggal_lahir}}</td>
-                    <td>{{$item->asal_kampus}}</td>
-                    <td>{{$item->jabatan_fungsional}}</td>
-                    <td>{{$item->pendidikan_terakhir}}</td>
-                    <td>{{$item->ikatan_kerja}}</td>
-                    <td>{{$item->program_studi}}</td>
-                    <td>{{$item->status}}</td>
-            </tr>
+                <tr>
+                    <td class="border">{{ $item->nidn_dosen }}</td>
+                    <td class="border">{{ $item->nik }}</td>
+                    <td class="border">{{ $item->nama_lengkap }}</td>
+                    <td class="border">{{ $item->jenis_kelamin }}</td>
+                    <td class="border">{{ $item->email }}</td>
+                    <td class="border">{{ date('d/m/Y', strtotime($item->tanggal_lahir)) }}</td>
+                    <td class="border">{{ $item->asal_kampus }}</td>
+                    <td class="border">{{ $item->jabatan_fungsional }}</td>
+                    <td class="border">{{ $item->pendidikan_terakhir }}</td>
+                    <td class="border">{{ $item->ikatan_kerja }}</td>
+                    <td class="border">{{ $item->program_studi }}</td>
+                    <td class="border">{{ $item->status }}</td>
+                    <td class="border">
+                        <form action="{{ route('pddikti.dosen.update', $item->nidn_dosen) }}" method="post">
+                            @csrf
+                            <button class="bg-blue-500 px-2 py-4 rounded">Update</button>
+                        </form>
+                    </td>
+                </tr>
             @empty
-                <tr><td>data kosong</td></tr>
+                <tr>
+                    <td>data kosong</td>
+                </tr>
             @endforelse
         </tbody>
     </table>

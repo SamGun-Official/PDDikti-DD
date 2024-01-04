@@ -2,21 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dosen;
-use App\Models\Kelas;
-use App\Models\Mahasiswa;
-use App\Models\MataKuliah;
-use App\Models\Nilai;
-use App\Models\pddikti\Dosen as PddiktiDosen;
-use App\Models\pddikti\Kelas as PddiktiKelas;
-use App\Models\pddikti\Mahasiswa as PddiktiMahasiswa;
-use App\Models\pddikti\MataKuliah as PddiktiMataKuliah;
-use App\Models\pddikti\Nilai as PddiktiNilai;
-use App\Models\pddikti\Periode as PddiktiPeriode;
-use App\Models\Periode;
+use App\Models\pddikti\Dosen;
+use App\Models\pddikti\Kelas;
+use App\Models\pddikti\Mahasiswa;
+use App\Models\pddikti\MataKuliah;
+use App\Models\pddikti\Nilai;
+use App\Models\pddikti\Periode;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PddiktiController extends Controller
 {
@@ -27,57 +19,47 @@ class PddiktiController extends Controller
 
     function dosen(): View
     {
-        $dosen = PddiktiDosen::all();
-        return view('pddikti.dosen', ["dosen" => $dosen]);
+        $dosen = Dosen::all();
+        return view('pddikti.dosen', compact("dosen"));
     }
 
-    function update_dosen($id)
+    function update_dosen($nidn_dosen)
     {
-        $dosen = PddiktiDosen::find($id);
+        $dosen = Dosen::find($nidn_dosen);
 
-        $data = request()->validate([
-            'nama' => 'required',
+        $dosen->update([
+            'status' => $dosen->status === 'Aktif' ? 'Non-Aktif' : 'Aktif',
         ]);
-
-        $dosen->update($data);
-
-        DB::raw('commit;');
 
         return back()->with('success', 'Dosen berhasil diubah');
     }
 
-    // function kelas(): View
-    // {
-    //     $kelas = PddiktiKelas::all();
-    //     return view('pddikti.kelas', ["kelas" => $kelas]);
-    // }
-
     function mahasiswa(): View
     {
-        $mahasiswa = PddiktiMahasiswa::all();
-        return view('pddikti.mahasiswa', ["mahasiswa" => $mahasiswa]);
+        $mahasiswa = Mahasiswa::all();
+        return view('pddikti.mahasiswa', compact("mahasiswa"));
     }
 
     function mata_kuliah(): View
     {
-        $mata_kuliah =  PddiktiMataKuliah::join('dosen', 'mv_mata_kuliah.nidn_dosen', '=','dosen.nidn_dosen')
-        ->get(['mv_mata_kuliah.*','dosen.nama_lengkap']);
+        $mata_kuliah =  MataKuliah::join('dosen', 'mv_mata_kuliah.nidn_dosen', 'dosen.nidn_dosen')
+            ->join('mv_periode', 'mv_mata_kuliah.id_periode', 'mv_periode.id_periode')
+            ->get(['mv_mata_kuliah.*', 'mv_periode.jenis_semester', 'mv_periode.tahun_ajaran', 'dosen.nama_lengkap']);
         // dd($mata_kuliah);
-        return view('pddikti.mata-kuliah', ["mata_kuliah" => $mata_kuliah]);
+        return view('pddikti.mata-kuliah', compact("mata_kuliah"));
     }
 
     function nilai(): View
     {
-        $nilai = PddiktiNilai::all();
+        $nilai =  Nilai::join('mv_mahasiswa', 'mv_nilai.nrp_mahasiswa', 'mv_mahasiswa.nrp_mahasiswa')
+            ->get(['mv_nilai.*', 'mv_mahasiswa.nama_lengkap']);
         // dd($nilai);
-        $nilai =  PddiktiNilai::join('mv_mahasiswa', 'mv_nilai.nrp_mahasiswa', '=','mv_mahasiswa.nrp_mahasiswa')
-        ->get(['mv_nilai.*','mv_mahasiswa.nama_lengkap']);
-        return view('pddikti.nilai', ["nilai" => $nilai]);
+        return view('pddikti.nilai', compact("nilai"));
     }
 
     function periode(): View
     {
-        $periode = PddiktiPeriode::all();
-        return view('pddikti.periode', ["periode" => $periode]);
+        $periode = Periode::all();
+        return view('pddikti.periode', compact("periode"));
     }
 }

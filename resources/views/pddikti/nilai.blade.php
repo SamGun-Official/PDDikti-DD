@@ -1,31 +1,33 @@
 @extends('pddikti.home')
 
 @section('content')
-    <h1>Nilai</h1>
+    <div class="mx-4 font-bold text-4xl">Nilai</div>
 @endsection
 
 @section('table')
     <table border="1">
         <thead>
             <tr>
-                <th>Mata kuliah</th>
-                <th>Nama Mahasiswa</th>
-                <th>Nilai uts</th>
-                <th>Nilai uas</th>
-                <th>Nilai akhir</th>
+                <th class="border">Mata Kuliah</th>
+                <th class="border">Nama Mahasiswa</th>
+                <th class="border">Nilai UTS</th>
+                <th class="border">Nilai UAS</th>
+                <th class="border">Nilai Akhir</th>
             </tr>
         </thead>
         <tbody>
             @forelse ($nilai as $item)
-            <tr>
-                <td>{{$item->kode_matkul}}</td>
-                <td>{{$item->nama_lengkap}}</td>
-                <td>{{$item->nilai_uts}}</td>
-                <td>{{$item->nilai_uas}}</td>
-                <td>{{$item->nilai_akhir}}</td>
-            </tr>
+                <tr>
+                    <td class="border">{{ $item->kode_matkul }}</td>
+                    <td class="border">{{ $item->nama_lengkap }}</td>
+                    <td class="border">{{ $item->nilai_uts }}</td>
+                    <td class="border">{{ $item->nilai_uas }}</td>
+                    <td class="border">{{ $item->nilai_akhir }}</td>
+                </tr>
             @empty
-                <tr><td>data kosong</td></tr>
+                <tr>
+                    <td>data kosong</td>
+                </tr>
             @endforelse
         </tbody>
     </table>
