@@ -34,7 +34,7 @@ class PddiktiController extends Controller
             ]);
 
             DB::connection('pddikti')->commit();
-            DB::connection('istts_kampus')->statement("CALL update_tabel('mv_dosen', 'f')");
+            // DB::connection('istts_kampus')->statement("CALL update_tabel('mv_dosen', 'f')");
         } catch (\Throwable $th) {
             DB::connection('pddikti')->rollBack();
             return back()->with('error', $th);
@@ -104,5 +104,11 @@ class PddiktiController extends Controller
     {
         $periode = Periode::all();
         return view('pddikti.periode', compact("periode"));
+    }
+
+    function syncpddikti()
+    {
+        DB::connection('istts_kampus')->statement("CALL update_tabel('mv_dosen', 'f')");
+        return back()->with('success', 'Berhasil sync semua data PDDikti!');
     }
 }
