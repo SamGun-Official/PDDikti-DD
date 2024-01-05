@@ -71,6 +71,9 @@ class DosenController extends Controller
 
                 ]);
                 DB::connection($connection)->commit();
+                DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
+                DB::connection('pddikti')->commit();
+                DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'c')");
         } catch (\Throwable $e) {
             DB::connection($connection)->rollBack();
             return back()->with("error", $e);
@@ -108,6 +111,8 @@ class DosenController extends Controller
             Istts_dosenNilai::where(['kode_matkul' => $nilai->kode_matkul, 'nrp_mahasiswa' => $nilai->nrp_mahasiswa])
                 ->update(['nilai_akhir' => $nilai_akhir]);
             DB::connection($connection)->commit();
+            DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
+            DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'c')");
         } catch (\Throwable $e) {
             DB::connection($connection)->rollBack();
             return back()->with("error", $e);
