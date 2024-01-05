@@ -11,11 +11,21 @@
                     <td>NRP Mahasiswa</td>
                     <td>:</td>
                     <td><input type="text" name="nrp_mahasiswa"></td>
+                    @if ($errors->get('nrp_mahasiswa'))
+                        <p class="text-red-700">
+                            {{ $errors->first('nrp_mahasiswa') }}
+                        </p>
+                    @endif
                 </tr>
                 <tr>
                     <td>Nama Lengkap</td>
                     <td>:</td>
                     <td><input type="text" name="nama_lengkap"></td>
+                    @if ($errors->get('nama_lengkap'))
+                        <p class="text-red-700">
+                            {{ $errors->first('nama_lengkap') }}
+                        </p>
+                    @endif
                 </tr>
                 <tr>
                     <td>Jenis Kelamin</td>
@@ -25,17 +35,32 @@
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
                         </select>
+                        @if ($errors->get('jenis_kelamin'))
+                            <p class="text-red-700">
+                                {{ $errors->first('jenis_kelamin') }}
+                            </p>
+                        @endif
                     </td>
                 </tr>
                 <tr>
                     <td>Tanggal Lahir</td>
                     <td>:</td>
                     <td><input type="date" name="tanggal_lahir"></td>
+                    @if ($errors->get('tanggal_lahir'))
+                        <p class="text-red-700">
+                            {{ $errors->first('tanggal_lahir') }}
+                        </p>
+                    @endif
                 </tr>
                 <tr>
                     <td>Asal Kampus</td>
                     <td>:</td>
                     <td><input type="text" name="asal_kampus"></td>
+                    @if ($errors->get('asal_kampus'))
+                        <p class="text-red-700">
+                            {{ $errors->first('asal_kampus') }}
+                        </p>
+                    @endif
                 </tr>
                 <tr>
                     <td>Jenjang</td>
@@ -46,6 +71,11 @@
                             <option value="S2">S2</option>
                             <option value="S3">S3</option>
                         </select>
+                        @if ($errors->get('jenjang'))
+                            <p class="text-red-700">
+                                {{ $errors->first('jenjang') }}
+                            </p>
+                        @endif
                     </td>
                 </tr>
                 <tr>
@@ -59,6 +89,11 @@
                                 </option>
                             @endforeach
                         </select>
+                        @if ($errors->get('semester_awal'))
+                            <p class="text-red-700">
+                                {{ $errors->first('semester_awal') }}
+                            </p>
+                        @endif
                     </td>
                 </tr>
                 <tr>
@@ -70,10 +105,15 @@
                             <option value="Non-Aktif">Non-Aktif</option>
                             <option value="Lulus">Lulus</option>
                         </select>
+                        @if ($errors->get('status'))
+                            <p class="text-red-700">
+                                {{ $errors->first('status') }}
+                            </p>
+                        @endif
                     </td>
                 </tr>
             </table>
-            <button class="bg-blue-500 px-2 py-4 rounded">Submit</button>
+            <button type="submit" class="bg-blue-500 px-2 py-4 rounded">Submit</button>
         </form>
     </div>
 @endsection
