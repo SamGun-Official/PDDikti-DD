@@ -36,6 +36,7 @@ Route::prefix('dosen')->group(function () {
     Route::post('/nilai/update', [DosenController::class, 'update_nilai'])->name('dosen.nilai.update');
     Route::post('/nilai/edit', [DosenController::class, 'update_editnilai'])->name('dosen.nilai.edit');
     Route::post('/nilai/delete/{kode_matkul}/{nrp_mahasiswa}', [DosenController::class, 'delete_nilai'])->name('dosen.nilai.delete');
+    Route::post('/syncdosen', [DosenController::class, 'syncdosen'])->name('syncdosen');
 });
 
 Route::prefix('kampus')->group(function () {
@@ -66,6 +67,7 @@ Route::prefix('kampus')->group(function () {
     Route::post('/periode', [KampusController::class, 'insert_periode'])->name('kampus.periode.insert');
     Route::post('/periode/update/{id_periode}', [KampusController::class, 'update_periode'])->name('kampus.periode.update');
     Route::post('/periode/delete/{id_periode}', [KampusController::class, 'delete_periode'])->name('kampus.periode.delete');
+    Route::post('/synckampus', [KampusController::class, 'synckampus'])->name('synckampus');
 });
 
 Route::prefix('pddikti')->group(function () {
@@ -84,4 +86,5 @@ Route::prefix('pddikti')->group(function () {
 
     Route::get('/nilai', [PddiktiController::class, 'nilai'])->name('pddikti.nilai');
     Route::get('/periode', [PddiktiController::class, 'periode'])->name('pddikti.periode');
+    Route::post('/syncpddikti', [PddiktiController::class, 'syncpddikti'])->name('syncpddikti');
 });

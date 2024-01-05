@@ -63,10 +63,10 @@ class DosenController extends Controller
             ]);
             DB::connection($connection)->commit();
             // dd("a");
-            DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'f')");
-            DB::connection('istts_kampus')->commit();
-            DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
-            DB::connection('pddikti')->commit();
+            // DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'f')");
+            // DB::connection('istts_kampus')->commit();
+            // DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
+            // DB::connection('pddikti')->commit();
         } catch (\Throwable $e) {
             DB::connection($connection)->rollBack();
             return back()->with("error", $e);
@@ -103,10 +103,10 @@ class DosenController extends Controller
                 ->update(['nilai_akhir' => $nilai_akhir]);
 
             DB::connection($connection)->commit();
-            DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'f')");
-            DB::connection('istts_kampus')->commit();
-            DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
-            DB::connection('pddikti')->commit();
+            // DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'f')");
+            // DB::connection('istts_kampus')->commit();
+            // DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
+            // DB::connection('pddikti')->commit();
         } catch (\Throwable $e) {
             DB::connection($connection)->rollBack();
             return back()->with("error", $e);
@@ -123,10 +123,10 @@ class DosenController extends Controller
             Nilai::where(['kode_matkul' => $kode_matkul, 'nrp_mahasiswa' => $nrp_mahasiswa])->delete();
 
             DB::connection($connection)->commit();
-            DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'f')");
-            DB::connection('istts_kampus')->commit();
-            DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
-            DB::connection('pddikti')->commit();
+            // DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'f')");
+            // DB::connection('istts_kampus')->commit();
+            // DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
+            // DB::connection('pddikti')->commit();
         } catch (\Throwable $th) {
             DB::connection($connection)->rollBack();
             return back()->with("error", $th);
