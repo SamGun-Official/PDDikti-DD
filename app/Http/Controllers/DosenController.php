@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\istts_dosen\Kelas;
 use App\Models\istts_dosen\MataKuliah;
 use App\Models\istts_dosen\Nilai;
+use App\Models\istts_kampus\Mahasiswa;
 use App\Models\pddikti\Mahasiswa as PddiktiMahasiswa;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class DosenController extends Controller
     {
         $nilai = Nilai::all();
         $mata_kuliah = MataKuliah::get(['kode_matkul', 'nama_matkul']);
-        $mahasiswa = PddiktiMahasiswa::get('nrp_mahasiswa');
+        $mahasiswa = Mahasiswa::get('nrp_mahasiswa');
         // dd($mahasiswa);
         return view('dosen.nilai', compact("nilai", "mata_kuliah", "mahasiswa"));
     }
@@ -61,6 +62,7 @@ class DosenController extends Controller
                 'asal_kampus' => $asal[0]->asal_kampus,
             ]);
             DB::connection($connection)->commit();
+            // dd("a");
             DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'f')");
             DB::connection('istts_kampus')->commit();
             DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");

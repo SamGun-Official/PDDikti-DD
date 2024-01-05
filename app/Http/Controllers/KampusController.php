@@ -200,7 +200,7 @@ class KampusController extends Controller
 
         try {
             DB::connection('istts_kampus')->beginTransaction();
-            Mahasiswa::create([
+            $a = Mahasiswa::create([
                 'nrp_mahasiswa' => $data['nrp_mahasiswa'],
                 'nama_lengkap' => $data['nama_lengkap'],
                 'jenis_kelamin' => $data['jenis_kelamin'],
@@ -210,9 +210,10 @@ class KampusController extends Controller
                 'semester_awal' => $data['semester_awal'],
                 'status' => $data['status'],
             ]);
-
+            // dd($a);
             DB::connection('istts_kampus')->commit();
             DB::connection('pddikti')->statement("CALL update_tabel('mv_mahasiswa', 'f')");
+            // dd("a");
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
