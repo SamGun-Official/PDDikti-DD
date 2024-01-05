@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\pddikti\Dosen;
-use App\Models\pddikti\Kelas;
 use App\Models\pddikti\Mahasiswa;
 use App\Models\pddikti\MataKuliah;
 use App\Models\pddikti\Nilai;
@@ -32,6 +31,15 @@ class PddiktiController extends Controller
         ]);
 
         return back()->with('success', 'Dosen berhasil diubah');
+    }
+
+    function kelas(): View
+    {
+        $kelas = MataKuliah::join('dosen', 'mv_mata_kuliah.nidn_dosen', 'dosen.nidn_dosen')
+            ->join('mv_periode', 'mv_mata_kuliah.id_periode', 'mv_periode.id_periode')
+            ->get(['mv_mata_kuliah.*', 'mv_periode.jenis_semester', 'mv_periode.tahun_ajaran', 'dosen.nama_lengkap']);
+        // dd($kelas);
+        return view('pddikti.kelas', compact("kelas"));
     }
 
     function mahasiswa(): View
