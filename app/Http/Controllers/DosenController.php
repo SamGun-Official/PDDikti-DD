@@ -137,10 +137,15 @@ class DosenController extends Controller
 
     function syncdosen(Request $request)
     {
-        DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'f')");
-        DB::connection('istts_kampus')->commit();
-        DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
-        DB::connection('pddikti')->commit();
+        try {
+            DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'f')");
+            DB::connection('istts_kampus')->commit();
+            DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
+            DB::connection('pddikti')->commit();
+        } catch (\Throwable $th) {
+            return back()->with("error", $th);
+        }
+
         return back()->with('success', 'Nilai berhasil dihapus');
     }
 }
