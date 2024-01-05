@@ -8,8 +8,8 @@
     <table>
         <thead>
             <tr>
-                <th class="border">Mata Kuliah</th>
-                <th class="border">Nama Mahasiswa</th>
+                <th class="border">Kode Matkul</th>
+                <th class="border">NRP Mahasiswa</th>
                 <th class="border">Nilai UTS</th>
                 <th class="border">Nilai UAS</th>
                 <th class="border">Nilai Akhir</th>

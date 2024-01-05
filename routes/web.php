@@ -75,8 +75,13 @@ Route::prefix('pddikti')->group(function () {
     Route::post('/dosen/update/{nidn_dosen}', [PddiktiController::class, 'update_dosen'])->name('pddikti.dosen.update');
 
     Route::get('/kelas', [PddiktiController::class, 'kelas'])->name('pddikti.kelas');
+    Route::post('/kelas/update', [PddiktiController::class, 'update_kelas'])->name('pddikti.kelas.update');
+
     Route::get('/mahasiswa', [PddiktiController::class, 'mahasiswa'])->name('pddikti.mahasiswa');
+
     Route::get('/mata-kuliah', [PddiktiController::class, 'mata_kuliah'])->name('pddikti.mata-kuliah');
+    Route::post('/mata-kuliah/update', [PddiktiController::class, 'update_mata_kuliah'])->name('pddikti.mata-kuliah.update');
+
     Route::get('/nilai', [PddiktiController::class, 'nilai'])->name('pddikti.nilai');
     Route::get('/periode', [PddiktiController::class, 'periode'])->name('pddikti.periode');
 });

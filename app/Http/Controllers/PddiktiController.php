@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\pddikti\Dosen;
+use App\Models\pddikti\Kelas;
 use App\Models\pddikti\Mahasiswa;
 use App\Models\pddikti\MataKuliah;
 use App\Models\pddikti\Nilai;
 use App\Models\pddikti\Periode;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 
 class PddiktiController extends Controller
 {
@@ -24,22 +26,42 @@ class PddiktiController extends Controller
 
     function update_dosen($nidn_dosen)
     {
-        $dosen = Dosen::find($nidn_dosen);
+        try {
+            DB::connection('pddikti')->beginTransaction();
+            $dosen = Dosen::find($nidn_dosen);
+            $dosen->update([
+                'status' => $dosen->status === 'Aktif' ? 'Non-Aktif' : 'Aktif',
+            ]);
 
-        $dosen->update([
-            'status' => $dosen->status === 'Aktif' ? 'Non-Aktif' : 'Aktif',
-        ]);
+            DB::connection('pddikti')->commit();
+            DB::connection('istts_kampus')->statement("CALL update_tabel('mv_dosen', 'f')");
+        } catch (\Throwable $th) {
+            DB::connection('pddikti')->rollBack();
+            return back()->with('error', $th);
+        }
 
         return back()->with('success', 'Dosen berhasil diubah');
     }
 
     function kelas(): View
     {
-        $kelas = MataKuliah::join('dosen', 'mv_mata_kuliah.nidn_dosen', 'dosen.nidn_dosen')
-            ->join('mv_periode', 'mv_mata_kuliah.id_periode', 'mv_periode.id_periode')
-            ->get(['mv_mata_kuliah.*', 'mv_periode.jenis_semester', 'mv_periode.tahun_ajaran', 'dosen.nama_lengkap']);
+        $kelas = Kelas::all();
         // dd($kelas);
         return view('pddikti.kelas', compact("kelas"));
+    }
+
+    function update_kelas()
+    {
+        try {
+            DB::connection('pddikti')->beginTransaction();
+            DB::connection('pddikti')->statement("CALL update_tabel('mv_kelas', 'c')");
+            DB::connection('pddikti')->commit();
+        } catch (\Throwable $th) {
+            DB::connection('pddikti')->rollBack();
+            return back()->with('error', $th);
+        }
+
+        return back()->with('success', 'Berhasil update kelas');
     }
 
     function mahasiswa(): View
@@ -55,6 +77,19 @@ class PddiktiController extends Controller
             ->get(['mv_mata_kuliah.*', 'mv_periode.jenis_semester', 'mv_periode.tahun_ajaran', 'dosen.nama_lengkap']);
         // dd($mata_kuliah);
         return view('pddikti.mata-kuliah', compact("mata_kuliah"));
+    }
+
+    function update_mata_kuliah()
+    {
+        try {
+            DB::connection('pddikti')->beginTransaction();
+            DB::connection('pddikti')->statement("CALL update_tabel('mv_mata_kuliah', 'c')");
+            DB::connection('pddikti')->commit();
+        } catch (\Throwable $th) {
+            return back()->with('error', $th);
+        }
+
+        return back()->with('success', 'Berhasil update mata kuliah');
     }
 
     function nilai(): View

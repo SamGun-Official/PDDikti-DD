@@ -96,8 +96,8 @@
                     <td class="border">{{ $item->kode_matkul }}</td>
                     <td class="border">{{ $item->nama_matkul }}</td>
                     <td class="border">{{ $item->kode_kelas }}</td>
-                    <td class="border">{{ $item->jenis_semester . ' ' . $item->tahun_ajaran }}</td>
-                    <td class="border">{{ $item->nama_lengkap }}</td>
+                    <td class="border">{{ $item->id_periode }}</td>
+                    <td class="border">{{ $item->nidn_dosen }}</td>
                     <td class="border">{{ $item->sks }}</td>
                     <td class="border">{{ $item->asal_kampus }}</td>
                     <td class="border">{{ $item->status ? 'Aktif' : 'Non-Aktif' }}</td>
