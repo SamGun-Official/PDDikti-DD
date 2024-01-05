@@ -67,17 +67,29 @@
                 <th>Nilai Uts</th>
                 <th>Nilai Uas</th>
                 <th>Nilai Akhir</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($nilai as $item)
-            <tr>
-                <td>{{$item->kode_matkul}}</td>
-                <td>{{$item->nrp_mahasiswa}}</td>
-                <td>{{$item->nilai_uts}}</td>
-                <td>{{$item->nilai_uas}}</td>
-                <td>{{$item->nilai_akhir}}</td>
-            </tr>
+                @php
+                    $i=0;
+                @endphp
+                @forelse ($nilai as $item)
+
+                <tr>
+                    <td>{{$item->kode_matkul}}</td>
+                    <td>{{$item->nrp_mahasiswa}}</td>
+                    <td>{{$item->nilai_uts}}</td>
+                    <td>{{$item->nilai_uas}}</td>
+                    <td>{{$item->nilai_akhir}}</td>
+                    <form action="{{ route('dosen.nilai.update',['id'=>$i]) }}" method="post">
+                        @csrf
+                        <td><button type="submit">EDIT</button></td>
+                    </form>
+                </tr>
+                @php
+                    $i++;
+                @endphp
            @empty
             <tr>
                 <td>data kosong</td>

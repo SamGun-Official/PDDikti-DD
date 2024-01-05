@@ -80,19 +80,40 @@ class DosenController extends Controller
         return back()->with('success', 'Nilai berhasil ditambahkan');
     }
 
-    function update_nilai($kode, $nrp)
+    function update_nilai(Request $request)
     {
-        $nilai = Istts_dosenNilai::where('kode', $kode)->where('nrp', $nrp)->first();
+        // dd($request->id);
+        $id = $request->id;
+        $nilai = Istts_dosenNilai::all();
+        $temp = $nilai[$id];
+        $request->session()->put('temp', $temp);
+        return view('dosen.editnilai');
+        // return back()->with('success', 'Nilai berhasil diubah');
+    }
 
-        $data = request()->validate([
-            'nilai' => 'required|min:0|max:100',
-        ]);
-
-        $nilai->update($data);
-
-        DB::raw('commit;');
-
-        return back()->with('success', 'Nilai berhasil diubah');
+    function update_editnilai(Request $request)
+    {
+        $nilai = $request->session()->get('temp');
+        $nilai_akhir = $request->nilai_akhir;
+        if($nilai_akhir<0){
+            $nilai_akhir = 0;
+        }
+        else if($nilai_akhir>100){
+            $nilai_akhir = 100;
+        }
+        // dd($nilai);
+        $connection = "istts_dosen";
+        try {
+            DB::connection($connection)->beginTransaction();
+            Istts_dosenNilai::where(['kode_matkul' => $nilai->kode_matkul, 'nrp_mahasiswa' => $nilai->nrp_mahasiswa])
+                ->update(['nilai_akhir' => $nilai_akhir]);
+            DB::connection($connection)->commit();
+        } catch (\Throwable $e) {
+            DB::connection($connection)->rollBack();
+            return back()->with("error", $e);
+        }
+        return redirect()->route('dosen.nilai');
+        // return back()->with('success', 'Nilai berhasil diubah');
     }
 
     function delete_nilai($kode, $nrp)
