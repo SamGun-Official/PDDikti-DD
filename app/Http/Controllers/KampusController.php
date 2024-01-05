@@ -21,6 +21,21 @@ class KampusController extends Controller
         return view('kampus.home');
     }
 
+    function synckampus()
+    {
+        try {
+            DB::connection('istts_kampus')->statement("CALL update_tabel('mv_dosen', 'f')");
+            DB::connection('istts_dosen')->statement("CALL update_tabel('mv_kelas', 'c')");
+            DB::connection('pddikti')->statement("CALL update_tabel('mv_kelas', 'c')");
+            DB::connection('pddikti')->statement("CALL update_tabel('mv_mahasiswa', 'f')");
+            DB::connection('istts_dosen')->statement("CALL update_tabel('mv_mata_kuliah', 'c')");
+            DB::connection('pddikti')->statement("CALL update_tabel('mv_mata_kuliah', 'c')");
+            DB::connection('pddikti')->statement("CALL update_tabel('mv_periode', 'f')");
+        } catch (\Throwable $th) {
+            return back()->with("error", $th);
+        }
+    }
+
     function dosen(): View
     {
         $dosen = Dosen::all();
@@ -45,33 +60,26 @@ class KampusController extends Controller
         ]);
         $status = request('status') ? 'Aktif' : 'Non-Aktif';
 
-        $connection = "istts_kampus";
-        $procedure = 'insert_data_dosen';
-        $bindings = [
-            'nidn_dosen' => $data['nidn_dosen'],
-            'nik' => $data['nik'],
-            'nama_lengkap' => $data['nama_lengkap'],
-            'jenis_kelamin' => $data['jenis_kelamin'],
-            'email' => $data['email'],
-            'tanggal_lahir' => $data['tanggal_lahir'],
-            'asal_kampus' => $data['asal_kampus'],
-            'jabatan_fungsional' => $data['jabatan_fungsional'],
-            'pendidikan_terakhir' => $data['pendidikan_terakhir'],
-            'ikatan_kerja' => $data['ikatan_kerja'],
-            'program_studi' => $data['program_studi'],
-            'status' => $status,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ];
-
         try {
-            DB::connection($connection)->beginTransaction();
-            DB::connection($connection)->statement("CALL $procedure(:nidn_dosen, :nik, :nama_lengkap, :jenis_kelamin, :email, :tanggal_lahir, :asal_kampus, :jabatan_fungsional, :pendidikan_terakhir, :ikatan_kerja, :program_studi, :status, :created_at, :updated_at)", $bindings);
-
-            DB::connection($connection)->commit();
-            DB::connection($connection)->statement("CALL update_tabel('mv_dosen', 'f')");
+            DB::connection('istts_kampus')->beginTransaction();
+            PddiktiDosen::create([
+                'nidn_dosen' => $data['nidn_dosen'],
+                'nik' => $data['nik'],
+                'nama_lengkap' => $data['nama_lengkap'],
+                'jenis_kelamin' => $data['jenis_kelamin'],
+                'email' => $data['email'],
+                'tanggal_lahir' => $data['tanggal_lahir'],
+                'asal_kampus' => $data['asal_kampus'],
+                'jabatan_fungsional' => $data['jabatan_fungsional'],
+                'pendidikan_terakhir' => $data['pendidikan_terakhir'],
+                'ikatan_kerja' => $data['ikatan_kerja'],
+                'program_studi' => $data['program_studi'],
+                'status' => $status,
+            ]);
+            DB::connection('istts_kampus')->commit();
+            DB::connection('istts_kampus')->statement("CALL update_tabel('mv_dosen', 'f')");
         } catch (\Throwable $th) {
-            DB::connection($connection)->rollBack();
+            DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
         }
 
@@ -80,43 +88,16 @@ class KampusController extends Controller
 
     function update_dosen($nidn_dosen)
     {
-        // $dosen = Dosen::find($nidn_dosen);
-
-        // $connection = "istts_kampus";
-        // $procedure = 'update_data_dosen';
-        // $bindings = [
-        //     'nidn_dosen' => $dosen['nidn_dosen'],
-        //     'status' => $dosen['status'] === 'Aktif' ? 'Non-Aktif' : 'Aktif',
-        //     'updated_at' => now(),
-        // ];
-
-        // try {
-        //     DB::connection('istts_dosen')->beginTransaction();
-
-        //     DB::connection($connection)->beginTransaction();
-        //     DB::connection($connection)->statement("CALL $procedure(:nidn_dosen, :status, :updated_at)", $bindings);
-
-        //     DB::connection('istts_dosen')->commit();
-        //     DB::connection($connection)->statement("CALL update_tabel('mv_dosen', 'f')");
-        //     DB::connection($connection)->commit();
-        // } catch (\Throwable $th) {
-        //     DB::connection('istts_dosen')->rollBack();
-        //     DB::connection($connection)->rollBack();
-        //     return back()->with("error", $th);
-        // }
-
         try {
-            DB::connection('istts_dosen')->beginTransaction();
-
+            DB::connection('istts_kampus')->beginTransaction();
             $dosen = PddiktiDosen::find($nidn_dosen);
             $dosen->update([
                 'status' => $dosen->status === 'Aktif' ? 'Non-Aktif' : 'Aktif',
             ]);
-
-            DB::connection('istts_dosen')->commit();
+            DB::connection('istts_kampus')->commit();
             DB::connection('istts_kampus')->statement("CALL update_tabel('mv_dosen', 'f')");
         } catch (\Throwable $th) {
-            DB::connection('istts_dosen')->rollBack();
+            DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
         }
 
@@ -147,20 +128,11 @@ class KampusController extends Controller
                 'nrp_mahasiswa' => $data['nrp_mahasiswa'],
                 'asal_kampus' => $data['asal_kampus']
             ]);
-
             ISTTSKampusLog::create([
                 'message' => 'Kelas berhasil ditambahkan',
                 'action' => 'INSERT',
             ]);
             DB::connection('istts_kampus')->commit();
-
-            DB::connection('istts_dosen')->statement("CALL update_tabel('mv_kelas', 'c')");
-
-            PDDiktiLog::create([
-                'message' => 'Kelas berhasil ditambahkan',
-                'action' => 'INSERT',
-            ]);
-            DB::connection('pddikti')->commit();
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -179,20 +151,11 @@ class KampusController extends Controller
         try {
             DB::connection('istts_kampus')->beginTransaction();
             Kelas::where('kode_matkul', $kode_matkul)->where('nrp_mahasiswa', $nrp_mahasiswa)->delete();
-
             ISTTSKampusLog::create([
                 'message' => 'Kelas berhasil dihapus',
                 'action' => 'DELETE',
             ]);
             DB::connection('istts_kampus')->commit();
-
-            DB::connection('istts_dosen')->statement("CALL update_tabel('mv_kelas', 'c')");
-
-            PDDiktiLog::create([
-                'message' => 'Kelas berhasil dihapus',
-                'action' => 'DELETE',
-            ]);
-            DB::connection('pddikti')->commit();
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -224,7 +187,7 @@ class KampusController extends Controller
 
         try {
             DB::connection('istts_kampus')->beginTransaction();
-            $a = Mahasiswa::create([
+            Mahasiswa::create([
                 'nrp_mahasiswa' => $data['nrp_mahasiswa'],
                 'nama_lengkap' => $data['nama_lengkap'],
                 'jenis_kelamin' => $data['jenis_kelamin'],
@@ -234,10 +197,7 @@ class KampusController extends Controller
                 'semester_awal' => $data['semester_awal'],
                 'status' => $data['status'],
             ]);
-            // dd($a);
             DB::connection('istts_kampus')->commit();
-            DB::connection('pddikti')->statement("CALL update_tabel('mv_mahasiswa', 'f')");
-            // dd("a");
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -250,14 +210,12 @@ class KampusController extends Controller
     {
         try {
             DB::connection('istts_kampus')->beginTransaction();
-
             $mahasiswa = Mahasiswa::find($nrp_mahasiswa);
             $mahasiswa->update([
                 'status' => $mahasiswa->status === 'Aktif' ? 'Non-Aktif' : 'Aktif',
             ]);
 
             DB::connection('istts_kampus')->commit();
-            DB::connection('pddikti')->statement("CALL update_tabel('mv_mahasiswa', 'f')");
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -308,20 +266,11 @@ class KampusController extends Controller
                 'asal_kampus' => $data['asal_kampus'],
                 'status' => $status ? 1 : 0,
             ]);
-
             ISTTSKampusLog::create([
                 'message' => 'Mata Kuliah berhasil ditambahkan',
                 'action' => 'INSERT',
             ]);
             DB::connection('istts_kampus')->commit();
-
-            DB::connection('istts_dosen')->statement("CALL update_tabel('mv_mata_kuliah', 'c')");
-
-            PDDiktiLog::create([
-                'message' => 'Mata Kuliah berhasil ditambahkan',
-                'action' => 'INSERT',
-            ]);
-            DB::connection('pddikti')->commit();
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -338,20 +287,11 @@ class KampusController extends Controller
             MataKuliah::where('kode_matkul', $kode_matkul)->update([
                 'status' => !$mata_kuliah->status,
             ]);
-
             ISTTSKampusLog::create([
                 'message' => 'Mata Kuliah berhasil diubah',
                 'action' => 'UPDATE',
             ]);
             DB::connection('istts_kampus')->commit();
-
-            DB::connection('istts_dosen')->statement("CALL update_tabel('mv_mata_kuliah', 'c')");
-
-            PDDiktiLog::create([
-                'message' => 'Mata Kuliah berhasil diubah',
-                'action' => 'UPDATE',
-            ]);
-            DB::connection('pddikti')->commit();
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -365,20 +305,11 @@ class KampusController extends Controller
         try {
             DB::connection('istts_kampus')->beginTransaction();
             MataKuliah::where('kode_matkul', $kode_matkul)->delete();
-
             ISTTSKampusLog::create([
                 'message' => 'Mata Kuliah berhasil dihapus',
                 'action' => 'DELETE',
             ]);
             DB::connection('istts_kampus')->commit();
-
-            DB::connection('istts_dosen')->statement("CALL update_tabel('mv_mata_kuliah', 'c')");
-
-            PDDiktiLog::create([
-                'message' => 'Mata Kuliah berhasil dihapus',
-                'action' => 'DELETE',
-            ]);
-            DB::connection('pddikti')->commit();
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -418,9 +349,7 @@ class KampusController extends Controller
                 'jenis_semester' => $data['jenis_semester'],
                 'tahun_ajaran' => $data['tahun_ajaran'],
             ]);
-
             DB::connection('istts_kampus')->commit();
-            DB::connection('pddikti')->statement("CALL update_tabel('mv_periode', 'f')");
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -441,9 +370,7 @@ class KampusController extends Controller
         try {
             DB::connection('istts_kampus')->beginTransaction();
             Periode::where('id_periode', $id_periode)->delete();
-
             DB::connection('istts_kampus')->commit();
-            DB::connection('pddikti')->statement("CALL update_tabel('mv_periode', 'f')");
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
