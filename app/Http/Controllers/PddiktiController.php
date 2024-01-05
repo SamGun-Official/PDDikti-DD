@@ -108,7 +108,12 @@ class PddiktiController extends Controller
 
     function syncpddikti()
     {
-        DB::connection('istts_kampus')->statement("CALL update_tabel('mv_dosen', 'f')");
+        try {
+            DB::connection('istts_kampus')->statement("CALL update_tabel('mv_dosen', 'f')");
+        } catch (\Throwable $th) {
+            return back()->with('error', $th);
+        }
+
         return back()->with('success', 'Berhasil sync semua data PDDikti!');
     }
 }
