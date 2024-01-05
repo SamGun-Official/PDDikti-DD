@@ -14,5 +14,9 @@
 
 @section('content')
     <h1>Home Dosen</h1>
-    <form action="{{ route('sync.dosen')}}"><Button>UPDATE</Button></form>
+    <br>
+    <form action="{{ route('syncdosen')}}" method="post">
+        @csrf
+        <Button class="bg-blue-500 px-2 py-4 rounded">SYNC NOW</Button>
+    </form>
 @endsection

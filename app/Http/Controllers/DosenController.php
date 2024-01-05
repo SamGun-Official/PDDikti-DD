@@ -134,4 +134,13 @@ class DosenController extends Controller
 
         return back()->with('success', 'Nilai berhasil dihapus');
     }
+
+    function syncdosen(Request $request)
+    {
+        DB::connection('istts_kampus')->statement("CALL update_tabel('mv_nilai', 'f')");
+        DB::connection('istts_kampus')->commit();
+        DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
+        DB::connection('pddikti')->commit();
+        return back()->with('success', 'Nilai berhasil dihapus');
+    }
 }
