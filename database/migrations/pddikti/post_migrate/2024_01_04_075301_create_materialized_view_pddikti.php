@@ -11,10 +11,10 @@ return new class extends Migration
     public function up(): void
     {
         // Materialized View Mahasiswa
-        DB::statement("CREATE MATERIALIZED VIEW mv_mahasiswa REFRESH FAST AS SELECT * FROM mahasiswa@" . env('DB_DBLINK_1', ''));
+        DB::statement("CREATE MATERIALIZED VIEW mv_mahasiswa REFRESH FAST ON COMMIT AS SELECT * FROM mahasiswa@" . env('DB_DBLINK_1', ''));
 
         // Materialized View Periode
-        DB::statement("CREATE MATERIALIZED VIEW mv_periode REFRESH FAST AS SELECT * FROM periode@" . env('DB_DBLINK_1', ''));
+        DB::statement("CREATE MATERIALIZED VIEW mv_periode REFRESH FAST ON COMMIT AS SELECT * FROM periode@" . env('DB_DBLINK_1', ''));
 
         // Materialized View Kelas
         DB::statement("CREATE MATERIALIZED VIEW mv_kelas REFRESH COMPLETE AS SELECT * FROM kelas@" . env('DB_DBLINK_1', ''));
