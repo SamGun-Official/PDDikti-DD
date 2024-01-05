@@ -11,7 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         // Materialized View Mahasiswa
-        DB::statement("CREATE MATERIALIZED VIEW mv_mahasiswa REFRESH FAST ON AS SELECT * FROM mahasiswa@" . env('DB_DBLINK_1', ''));
+        DB::statement("CREATE MATERIALIZED VIEW mv_mahasiswa REFRESH FAST AS SELECT * FROM mahasiswa@" . env('DB_DBLINK_1', ''));
 
         // Materialized View Periode
         DB::statement("CREATE MATERIALIZED VIEW mv_periode REFRESH FAST AS SELECT * FROM periode@" . env('DB_DBLINK_1', ''));
