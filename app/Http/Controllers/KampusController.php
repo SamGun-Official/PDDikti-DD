@@ -8,7 +8,9 @@ use App\Models\istts_kampus\Mahasiswa;
 use App\Models\istts_kampus\MataKuliah;
 use App\Models\istts_kampus\Nilai;
 use App\Models\istts_kampus\Periode;
+use App\Models\istts_kampus\ISTTSKampusLog;
 use App\Models\pddikti\Dosen as PddiktiDosen;
+use App\Models\pddikti\PDDiktiLog;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 
@@ -146,8 +148,19 @@ class KampusController extends Controller
                 'asal_kampus' => $data['asal_kampus']
             ]);
 
+            ISTTSKampusLog::create([
+                'message' => 'Kelas berhasil ditambahkan',
+                'action' => 'INSERT',
+            ]);
             DB::connection('istts_kampus')->commit();
+
             DB::connection('istts_dosen')->statement("CALL update_tabel('mv_kelas', 'c')");
+
+            PDDiktiLog::create([
+                'message' => 'Kelas berhasil ditambahkan',
+                'action' => 'INSERT',
+            ]);
+            DB::connection('pddikti')->commit();
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -167,8 +180,19 @@ class KampusController extends Controller
             DB::connection('istts_kampus')->beginTransaction();
             Kelas::where('kode_matkul', $kode_matkul)->where('nrp_mahasiswa', $nrp_mahasiswa)->delete();
 
+            ISTTSKampusLog::create([
+                'message' => 'Kelas berhasil dihapus',
+                'action' => 'DELETE',
+            ]);
             DB::connection('istts_kampus')->commit();
+
             DB::connection('istts_dosen')->statement("CALL update_tabel('mv_kelas', 'c')");
+
+            PDDiktiLog::create([
+                'message' => 'Kelas berhasil dihapus',
+                'action' => 'DELETE',
+            ]);
+            DB::connection('pddikti')->commit();
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -285,8 +309,19 @@ class KampusController extends Controller
                 'status' => $status ? 1 : 0,
             ]);
 
+            ISTTSKampusLog::create([
+                'message' => 'Mata Kuliah berhasil ditambahkan',
+                'action' => 'INSERT',
+            ]);
             DB::connection('istts_kampus')->commit();
+
             DB::connection('istts_dosen')->statement("CALL update_tabel('mv_mata_kuliah', 'c')");
+
+            PDDiktiLog::create([
+                'message' => 'Mata Kuliah berhasil ditambahkan',
+                'action' => 'INSERT',
+            ]);
+            DB::connection('pddikti')->commit();
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -304,8 +339,19 @@ class KampusController extends Controller
                 'status' => !$mata_kuliah->status,
             ]);
 
+            ISTTSKampusLog::create([
+                'message' => 'Mata Kuliah berhasil diubah',
+                'action' => 'UPDATE',
+            ]);
             DB::connection('istts_kampus')->commit();
+
             DB::connection('istts_dosen')->statement("CALL update_tabel('mv_mata_kuliah', 'c')");
+
+            PDDiktiLog::create([
+                'message' => 'Mata Kuliah berhasil diubah',
+                'action' => 'UPDATE',
+            ]);
+            DB::connection('pddikti')->commit();
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
@@ -320,8 +366,19 @@ class KampusController extends Controller
             DB::connection('istts_kampus')->beginTransaction();
             MataKuliah::where('kode_matkul', $kode_matkul)->delete();
 
+            ISTTSKampusLog::create([
+                'message' => 'Mata Kuliah berhasil dihapus',
+                'action' => 'DELETE',
+            ]);
             DB::connection('istts_kampus')->commit();
+
             DB::connection('istts_dosen')->statement("CALL update_tabel('mv_mata_kuliah', 'c')");
+
+            PDDiktiLog::create([
+                'message' => 'Mata Kuliah berhasil dihapus',
+                'action' => 'DELETE',
+            ]);
+            DB::connection('pddikti')->commit();
         } catch (\Throwable $th) {
             DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
