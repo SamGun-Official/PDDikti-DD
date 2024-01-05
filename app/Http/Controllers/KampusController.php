@@ -40,9 +40,10 @@ class KampusController extends Controller
             'pendidikan_terakhir' => 'required',
             'ikatan_kerja' => 'required',
             'program_studi' => 'required',
-            'status' => 'required',
         ]);
+        $status = request('status') ? 'Aktif' : 'Non-Aktif';
 
+        $connection = "istts_kampus";
         $procedure = 'insert_data_dosen';
         $bindings = [
             'nidn_dosen' => $data['nidn_dosen'],
@@ -56,56 +57,47 @@ class KampusController extends Controller
             'pendidikan_terakhir' => $data['pendidikan_terakhir'],
             'ikatan_kerja' => $data['ikatan_kerja'],
             'program_studi' => $data['program_studi'],
-            'status' => $data['status'],
+            'status' => $status,
             'created_at' => now(),
             'updated_at' => now(),
         ];
 
-        // $result = DB::connection('istts_kampus')->statement("CALL $procedure(:nidn_dosen, :nik, :nama_lengkap, :jenis_kelamin, :email, :tanggal_lahir, :asal_kampus, :jabatan_fungsional, :pendidikan_terakhir, :ikatan_kerja, :program_studi, :status, :created_at, :updated_at)", $bindings")
-        // dd($result);
+        try {
+            DB::connection($connection)->beginTransaction();
+            DB::connection($connection)->statement("CALL $procedure(:nidn_dosen, :nik, :nama_lengkap, :jenis_kelamin, :email, :tanggal_lahir, :asal_kampus, :jabatan_fungsional, :pendidikan_terakhir, :ikatan_kerja, :program_studi, :status, :created_at, :updated_at)", $bindings);
 
-        // PddiktiDosen::create([
-        //     'nidn_dosen' => $data['nidn_dosen'],
-        //     'nik' => $data['nik'],
-        //     'nama_lengkap' => $data['nama_lengkap'],
-        //     'jenis_kelamin' => $data['jenis_kelamin'],
-        //     'email' => $data['email'],
-        //     'tanggal_lahir' => $data['tanggal_lahir'],
-        //     'asal_kampus' => $data['asal_kampus'],
-        //     'jabatan_fungsional' => $data['jabatan_fungsional'],
-        //     'pendidikan_terakhir' => $data['pendidikan_terakhir'],
-        //     'ikatan_kerja' => $data['ikatan_kerja'],
-        //     'program_studi' => $data['program_studi'],
-        //     'status' => $data['status'],
-        // ]);
+            DB::connection($connection)->commit();
+            DB::connection($connection)->statement("CALL update_tabel('mv_dosen', 'f')");
+        } catch (\Throwable $th) {
+            DB::connection($connection)->rollBack();
+            return back()->with("error", $th);
+        }
 
         return back()->with('success', 'Dosen berhasil ditambahkan');
     }
 
     function update_dosen($nidn_dosen)
     {
-        $dosen = PddiktiDosen::find($nidn_dosen);
+        $dosen = Dosen::find($nidn_dosen);
 
-        $update_procedure = 'istts_kampus.update_data_dosen';
+        $connection = "istts_kampus";
+        $procedure = 'update_data_dosen';
         $bindings = [
-            'nidn_dosen' => $dosen->nidn_dosen,
-            'nik' => $dosen->nik,
-            'nama_lengkap' => $dosen->nama_lengkap,
-            'jenis_kelamin' => $dosen->jenis_kelamin,
-            'email' => $dosen->email,
-            'tanggal_lahir' => $dosen->tanggal_lahir,
-            'asal_kampus' => $dosen->asal_kampus,
-            'jabatan_fungsional' => $dosen->jabatan_fungsional,
-            'pendidikan_terakhir' => $dosen->pendidikan_terakhir,
-            'ikatan_kerja' => $dosen->ikatan_kerja,
-            'program_studi' => $dosen->program_studi,
-            'status' => $dosen->status === 'Aktif' ? 'Non-Aktif' : 'Aktif',
+            'nidn_dosen' => $dosen['nidn_dosen'],
+            'status' => $dosen['status'] === 'Aktif' ? 'Non-Aktif' : 'Aktif',
             'updated_at' => now(),
         ];
 
-        // $dosen->update([
-        //     'status' => $dosen->status === 'Aktif' ? 'Non-Aktif' : 'Aktif',
-        // ]);
+        try {
+            DB::connection($connection)->beginTransaction();
+            $result = DB::connection($connection)->statement("CALL $procedure(:nidn_dosen, :status, :updated_at)", $bindings);
+
+            DB::connection($connection)->commit();
+            $result = DB::connection($connection)->statement("CALL update_tabel('mv_dosen', 'f')");
+        } catch (\Throwable $th) {
+            DB::connection($connection)->rollBack();
+            return back()->with("error", $th);
+        }
 
         return back()->with('success', 'Dosen berhasil diubah');
     }
@@ -239,9 +231,7 @@ class KampusController extends Controller
 
     function mata_kuliah(): View
     {
-        $mata_kuliah = MataKuliah::join('periode', 'mata_kuliah.id_periode', 'periode.id_periode')
-            ->join('mv_dosen', 'mata_kuliah.nidn_dosen', 'mv_dosen.nidn_dosen')
-            ->get(['mata_kuliah.*', 'periode.tahun_ajaran', 'periode.jenis_semester', 'mv_dosen.nama_lengkap']);
+        $mata_kuliah = MataKuliah::all();
         $periode = Periode::orderBy('id_periode')->get();
         $dosen = Dosen::all();
         // dd($mata_kuliah);
