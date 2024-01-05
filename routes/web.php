@@ -35,7 +35,7 @@ Route::prefix('dosen')->group(function () {
     Route::post('/nilai', [DosenController::class, 'insert_nilai'])->name('dosen.nilai.insert');
     Route::post('/nilai/update', [DosenController::class, 'update_nilai'])->name('dosen.nilai.update');
     Route::post('/nilai/edit', [DosenController::class, 'update_editnilai'])->name('dosen.nilai.edit');
-    Route::post('/nilai/delete', [DosenController::class, 'delete_nilai'])->name('dosen.nilai.delete');
+    Route::post('/nilai/delete/{kode_matkul}/{nrp_mahasiswa}', [DosenController::class, 'delete_nilai'])->name('dosen.nilai.delete');
 });
 
 Route::prefix('kampus')->group(function () {

@@ -1,28 +1,30 @@
 @extends('dosen.home')
 
 @section('content')
-    <h1>Kelas</h1>
+    <div class="mx-4 font-bold text-4xl">Kelas</div>
 @endsection
 
 @section('table')
-    <table border="1">
+    <table>
         <thead>
             <tr>
-                <th>Mata Kuliah</th>
-                <th>Mahasiswa</th>
+                <th class="border">Kode Matkul</th>
+                <th class="border">NRP Mahasiswa</th>
+                <th class="border">Asal Kampus</th>
             </tr>
         </thead>
         <tbody>
-           @forelse ($kelas as $item)
-            <tr>
-                <td>{{$item->kode_matkul}}</td>
-                <td>{{$item->nrp_mahasiswa}}</td>
-            </tr>
-           @empty
-            <tr>
-                <td>data kosong</td>
-            </tr>
-           @endforelse
+            @forelse ($kelas as $item)
+                <tr>
+                    <td class="border">{{ $item->kode_matkul }}</td>
+                    <td class="border">{{ $item->nrp_mahasiswa }}</td>
+                    <td class="border">{{ $item->asal_kampus }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td>data kosong</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 @endsection

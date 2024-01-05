@@ -1,100 +1,104 @@
 @extends('dosen.home')
 
 @section('content')
-    <h1>Nilai</h1>
+    <div class="flex flex-col mx-4">
+        <form action="{{ route('dosen.nilai.insert') }}" method="post">
+            @csrf
 
-    <form action="{{route('dosen.nilai.insert')}}" method="post">
-        @csrf
-        <table>
-            <tr>
-                <td>Mata Kuliah</td>
-                <td>:</td>
-                <td>
-                    <select name="kode_matkul">
-                        @foreach ($mata_kuliah as $item)
-                        <option value="{{ $item->kode_matkul }}">
-                            {{ $item->kode_matkul . ' - ' . $item->nama_matkul }}
-                        </option>
-                    @endforeach
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Mahasiswa</td>
-                <td>:</td>
-                <td>
-                    <select name="nrp_mahasiswa">
-                        @foreach ($mahasiswa as $item)
-                        <option value="{{ $item->nrp_mahasiswa }}">
-                            {{ $item->nrp_mahasiswa}}
-                        </option>
-
-                    @endforeach
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Nilai UTS</td>
-                <td>:</td>
-                <td><input type="number" name="nilai_uts"></td>
-            </tr>
-            <tr>
-                <td>Nilai UAS</td>
-                <td>:</td>
-                <td><input type="number" name="nilai_uas"></td>
-            </tr>
-            <tr>
-                <td>Nilai AKHIR</td>
-                <td>:</td>
-                <td><input type="number" name="nilai_akhir"></td>
-            </tr>
-            <tr>
-                <td>
-                    <button>Submit</button>
-                </td>
-            </tr>
-        </table>
-        <hr>
-    </form>
+            <div class="font-bold text-4xl">Dosen</div>
+            <table>
+                <tr>
+                    <td>Mata Kuliah</td>
+                    <td>:</td>
+                    <td>
+                        <select name="kode_matkul">
+                            @foreach ($mata_kuliah as $item)
+                                <option value="{{ $item->kode_matkul }}">
+                                    {{ $item->kode_matkul . ' - ' . $item->nama_matkul }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Mahasiswa</td>
+                    <td>:</td>
+                    <td>
+                        <select name="nrp_mahasiswa">
+                            @foreach ($mahasiswa as $item)
+                                <option value="{{ $item->nrp_mahasiswa }}">
+                                    {{ $item->nrp_mahasiswa }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nilai UTS</td>
+                    <td>:</td>
+                    <td><input type="number" min="0" max="100" name="nilai_uts"></td>
+                </tr>
+                <tr>
+                    <td>Nilai UAS</td>
+                    <td>:</td>
+                    <td><input type="number" min="0" max="100" name="nilai_uas"></td>
+                </tr>
+                <tr>
+                    <td>Nilai AKHIR</td>
+                    <td>:</td>
+                    <td><input type="number"min="0" max="100" name="nilai_akhir"></td>
+                </tr>
+            </table>
+            <button class="bg-blue-500 px-2 py-4 rounded">Submit</button>
+        </form>
+    </div>
 @endsection
 
 @section('table')
-    <table border="1">
+    <table>
         <thead>
             <tr>
-                <th>Kode Matkul</th>
-                <th>NRP mahasiswa</th>
-                <th>Nilai Uts</th>
-                <th>Nilai Uas</th>
-                <th>Nilai Akhir</th>
-                <th>Action</th>
+                <th class="border">Kode Matkul</th>
+                <th class="border">NRP Mahasiswa</th>
+                <th class="border">Nilai UTS</th>
+                <th class="border">Nilai UAS</th>
+                <th class="border">Nilai Akhir</th>
+                <th class="border">Asal Kampus</th>
+                <th class="border">Action</th>
             </tr>
         </thead>
         <tbody>
-                @php
-                    $i=0;
-                @endphp
-                @forelse ($nilai as $item)
-
+            @php
+                $i = 0;
+            @endphp
+            @forelse ($nilai as $item)
                 <tr>
-                    <td>{{$item->kode_matkul}}</td>
-                    <td>{{$item->nrp_mahasiswa}}</td>
-                    <td>{{$item->nilai_uts}}</td>
-                    <td>{{$item->nilai_uas}}</td>
-                    <td>{{$item->nilai_akhir}}</td>
-                    <form action="{{ route('dosen.nilai.update',['id'=>$i]) }}" method="post">
-                        @csrf
-                        <td><button type="submit">EDIT</button></td>
-                    </form>
+                    <td class="border">{{ $item->kode_matkul }}</td>
+                    <td class="border">{{ $item->nrp_mahasiswa }}</td>
+                    <td class="border">{{ $item->nilai_uts }}</td>
+                    <td class="border">{{ $item->nilai_uas }}</td>
+                    <td class="border">{{ $item->nilai_akhir }}</td>
+                    <td class="border">{{ $item->asal_kampus }}</td>
+                    <td class="border">
+                        <form action="{{ route('dosen.nilai.update', ['id' => $i]) }}" method="post">
+                            @csrf
+                            <button class="bg-blue-500 px-2 py-4 rounded">Edit</button>
+                        </form>
+                        <form action="{{ route('dosen.nilai.delete', [$item->kode_matkul, $item->nrp_mahasiswa]) }}"
+                            method="post">
+                            @csrf
+                            <button class="bg-red-500 px-2 py-4 rounded">Delete</button>
+                        </form>
+                    </td>
                 </tr>
                 @php
                     $i++;
                 @endphp
-           @empty
-            <tr>
-                <td>data kosong</td>
-            </tr>
-           @endforelse
+            @empty
+                <tr>
+                    <td>data kosong</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 @endsection
