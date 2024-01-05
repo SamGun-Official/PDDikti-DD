@@ -13,10 +13,10 @@
 @endsection
 
 @section('content')
-    <h1>Home Dosen</h1>
-    <br>
-    <form action="{{ route('syncdosen')}}" method="post">
-        @csrf
-        <Button class="bg-blue-500 px-2 py-4 rounded">SYNC NOW</Button>
-    </form>
+    <div class="flex flex-col items-center">
+        <h1 class="font-bold text-2xl mb-8">Home Dosen</h1>
+        <form action="{{ route('syncdosen') }}" method="POST">
+            <button type="submit" class="bg-blue-500 px-4 py-4 rounded font-bold text-xl">Update</button>
+        </form>
+    </div>
 @endsection
