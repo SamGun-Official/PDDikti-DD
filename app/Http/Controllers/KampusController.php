@@ -89,13 +89,30 @@ class KampusController extends Controller
         ];
 
         try {
-            DB::connection($connection)->beginTransaction();
-            $result = DB::connection($connection)->statement("CALL $procedure(:nidn_dosen, :status, :updated_at)", $bindings);
+            DB::connection('istts_dosen')->beginTransaction();
+            DB::connection($connection)->statement("CALL $procedure(:nidn_dosen, :status, :updated_at)", $bindings);
 
-            DB::connection($connection)->commit();
-            $result = DB::connection($connection)->statement("CALL update_tabel('mv_dosen', 'f')");
+            DB::connection('istts_dosen')->commit();
+            DB::connection($connection)->statement("CALL update_tabel('mv_dosen', 'f')");
         } catch (\Throwable $th) {
+            DB::connection('istts_dosen')->rollBack();
             DB::connection($connection)->rollBack();
+            return back()->with("error", $th);
+        }
+
+        try {
+            DB::connection('istts_dosen')->beginTransaction();
+
+            $dosen = PddiktiDosen::find($nidn_dosen);
+            $dosen->update([
+                'status' => $dosen->status === 'Aktif' ? 'Non-Aktif' : 'Aktif',
+            ]);
+
+            DB::connection('istts_dosen')->commit();
+            DB::connection('istts_kampus')->statement("CALL update_tabel('mv_dosen', 'f')");
+        } catch (\Throwable $th) {
+            DB::connection('istts_dosen')->rollBack();
+            DB::connection('istts_kampus')->rollBack();
             return back()->with("error", $th);
         }
 
