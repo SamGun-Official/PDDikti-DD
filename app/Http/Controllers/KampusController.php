@@ -31,9 +31,12 @@ class KampusController extends Controller
             DB::connection('istts_dosen')->statement("CALL update_tabel('mv_mata_kuliah', 'c')");
             DB::connection('pddikti')->statement("CALL update_tabel('mv_mata_kuliah', 'c')");
             DB::connection('pddikti')->statement("CALL update_tabel('mv_periode', 'f')");
+            DB::connection('pddikti')->statement("CALL update_tabel('mv_nilai', 'c')");
         } catch (\Throwable $th) {
             return back()->with("error", $th);
         }
+
+        return back()->with('success', 'Sinkronisasi berhasil');
     }
 
     function dosen(): View
