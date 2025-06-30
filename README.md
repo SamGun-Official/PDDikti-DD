@@ -1,66 +1,85 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PDDikti-DD
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A project built using the Laravel 10 framework and Oracle 11g as its database, developed as a final project for the Distributed Database course, which implements Materialized Views (MV) in a peer-to-peer setup between clients.
 
-## About Laravel
+## Contributors
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The following are the names of the contributors to this project:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Samuel Gunawan (https://github.com/SamGun-Official)
+2. Ignatius Odi (https://github.com/IgnatiusOdi)
+3. John Louis Airlangga W. J. (https://github.com/jlairlangga)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Installation
 
-## Learning Laravel
+The following are several requirements that must be met to install the project:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-   PHP must be version 8.1 or newer
+-   [PHP oci8 extension](https://pecl.php.net/package/oci8) (Download pre-compiled DLL file from PECL site and enable the extension in your **php.ini**)
+-   [Oracle Instant Client Version 21.x or newer](https://www.oracle.com/in/database/technologies/instant-client/winx64-64-downloads.html)
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+After all the requirements are fulfilled, run `composer install` and `npm install` to install all required dependencies. Then copy the `.env.example` file as `.env` and modify the Oracle configuration to match your database configuration. You can also migrate dummy data by running this command:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```powershell
+php artisan migrate:refreshAll
+```
 
-## Laravel Sponsors
+## Configurations
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+For the TNS names configuration in Oracle, you can refer to the example provided in the `tnsnames.ora` [configuration file](https://github.com/SamGun-Official/PDDikti-DD/tree/main/example/tnsnames.ora). You can find the configuration file in your Oracle installation directory, for example: `C:\Oracle\product\11.2.0\dbhome_1\NETWORK\ADMIN`.
 
-### Premium Partners
+Please ensure that you have created the database link between Oracle database instances, using an example like the one in `.env.example`. Make sure the link name matches the one specified in the `.env` file. The following are example credentials used during the development of this project:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```env
+DB_CONNECTION_PDDIKTI=pddikti
+DB_HOST_PDDIKTI=0.0.0.0             # Database Destination IP
+DB_PORT_PDDIKTI=1521
+DB_SERVICE_NAME_PDDIKTI=PDDIKTI     # Database Service Name
+DB_LOAD_BALANCE_PDDIKTI=no
+DB_DATABASE_PDDIKTI=PDDIKTI         # Database Name
+DB_USERNAME_PDDIKTI=pddikti         # Database Login Username
+DB_PASSWORD_PDDIKTI=pddikti         # Database Login Password
 
-## Contributing
+DB_CONNECTION_ISTTSKAMPUS=istts_kampus
+DB_HOST_ISTTSKAMPUS=10.10.1.146
+DB_PORT_ISTTSKAMPUS=1521
+DB_SERVICE_NAME_ISTTSKAMPUS=ISTTS_KAMPUS
+DB_LOAD_BALANCE_ISTTSKAMPUS=no
+DB_DATABASE_ISTTSKAMPUS=ISTTS_KAMPUS
+DB_USERNAME_ISTTSKAMPUS=BAA
+DB_PASSWORD_ISTTSKAMPUS=BAA
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+DB_CONNECTION_ISTTSDOSEN=istts_dosen
+DB_HOST_ISTTSDOSEN=10.10.1.147
+DB_PORT_ISTTSDOSEN=1521
+DB_SERVICE_NAME_ISTTSDOSEN=ISTTS_DOSEN
+DB_LOAD_BALANCE_ISTTSDOSEN=no
+DB_DATABASE_ISTTSDOSEN=ISTTS_DOSEN
+DB_USERNAME_ISTTSDOSEN=dosen
+DB_PASSWORD_ISTTSDOSEN=dosen
 
-## Code of Conduct
+DB_DBLINK_1=PubFUpddiktiTObaa   # DBLINK NAME: PDDIKTI TO BAA
+DB_DBLINK_2=PubFUbaaTOpddikti   # DBLINK NAME: BAA TO PDDIKTI
+DB_DBLINK_3=PubFUbaaTOdosen     # DBLINK NAME: BAA TO DOSEN
+DB_DBLINK_4=PubFUdosenTObaa     # DBLINK NAME: DOSEN TO BAA
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Below are sample login credentials for accessing the web application:
 
-## Security Vulnerabilities
+```
+=> FOR LOGIN AS PDDIKTI ROLE
+Username: odi
+Password: odi
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+=> FOR LOGIN AS BAA ROLE
+Username: samgun
+Password: samgun
+
+=> FOR LOGIN AS DOSEN ROLE
+Username: airlangga
+Password: airlangga
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced and is licensed using the [MIT license](https://opensource.org/licenses/MIT).
